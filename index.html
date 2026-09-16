@@ -46,8 +46,11 @@
 <!-- ========== 1. ПЕРВЫЙ ЭКРАН ========== -->
 <section class="hero" aria-labelledby="hero-title">
 
-  <span class="tick tick--a" aria-hidden="true">Резиденции</span>
-  <span class="tick tick--b" aria-hidden="true">Под ключ</span>
+  <div class="hero__band">
+    <span class="tick" aria-hidden="true">Резиденции</span>
+    <p class="hero__claim">Проектируем дома,<br>которые переживут моду</p>
+    <span class="tick" aria-hidden="true">Под ключ</span>
+  </div>
 
   <div class="hero__stage">
     <span class="tick tick--c" aria-hidden="true">Архитектура</span>
@@ -76,8 +79,7 @@
         <path d="M12 3.2v17.6M12 3.2 3.4 8.1v10.4M12 3.2l8.6 4.9v10.4"/>
       </svg>
       <span class="vh">Смотреть проекты</span>
-    </a>
-  </div>
+    </a>  </div>
 
   <div class="hero__foot">
     <p class="hero__lede">
@@ -98,6 +100,12 @@
       </span>
       <span class="filmcard__count">01/04</span>
     </a>
+
+    <a class="cta" href="#contact">
+      Обсудить участок
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13L13 3M13 3H6M13 3v7"/></svg>
+    </a>
+
   </div>
 </section>
 
@@ -186,88 +194,94 @@
 
   <ul class="work__grid">
     <li class="work__item work__item--tall">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp" data-alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане"
+              data-name="Сосновая, 14" data-spec="154 м² · Ленинградская обл. · 6 месяцев"
+              data-text="Участок в сосняке, где нельзя было валить деревья. Дом встал на 14 свай между стволами, фасад — обожжённая доска, чтобы через десять лет он всё ещё был чёрным без покраски. Витраж во фронтоне поймал единственный просвет в кронах.">
         <figure>
-          <img src="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp"
-               alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане"
-               width="1152" height="864" loading="lazy" decoding="async">
+          <img src="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp" alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане" width="1152" height="864" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Сосновая, 14</span>
             <span class="work__spec">154 м² · Ленинградская обл. · 6 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
     <li class="work__item">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp" data-alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах"
+              data-name="Дом на Кленовой" data-spec="228 м² · Подмосковье · 9 месяцев"
+              data-text="Два объёма со сдвигом: нижний в штукатурке, верхний в термодоске. Сдвиг дал навес над входом и террасу на втором этаже, не добавив ни метра к пятну застройки.">
         <figure>
-          <img src="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp"
-               alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах"
-               width="1280" height="720" loading="lazy" decoding="async">
+          <img src="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp" alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах" width="1280" height="720" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Дом на Кленовой</span>
             <span class="work__spec">228 м² · Подмосковье · 9 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
     <li class="work__item">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp" data-alt="Бетонный дом с вынесенным вторым этажом на горном склоне"
+              data-name="Склон" data-spec="196 м² · Красная Поляна · 11 месяцев"
+              data-text="Уклон участка — 24 градуса. Вместо того чтобы срезать склон, вынесли второй этаж консолью на 4,2 метра. Монолит делали на месте, всё остальное привезли готовым.">
         <figure>
-          <img src="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp"
-               alt="Бетонный дом с вынесенным вторым этажом на горном склоне"
-               width="1152" height="864" loading="lazy" decoding="async">
+          <img src="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp" alt="Бетонный дом с вынесенным вторым этажом на горном склоне" width="1152" height="864" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Склон</span>
             <span class="work__spec">196 м² · Красная Поляна · 11 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
     <li class="work__item work__item--wide">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp" data-alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой"
+              data-name="Оливковый двор" data-spec="310 м² · Южный берег Крыма · 14 месяцев"
+              data-text="Дом развёрнут от дороги и раскрыт к морю. Травертин на террасе тот же, что на полу внутри, поэтому граница между домом и двором почти не читается. Оливы — старые, пересаженные с участка в трёх километрах.">
         <figure>
-          <img src="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp"
-               alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой"
-               width="1152" height="864" loading="lazy" decoding="async">
+          <img src="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp" alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой" width="1152" height="864" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Оливковый двор</span>
             <span class="work__spec">310 м² · Южный берег Крыма · 14 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
     <li class="work__item">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp" data-alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево"
+              data-name="Патио" data-spec="172 м² · Калининградская обл. · 8 месяцев"
+              data-text="Ветер с залива не даёт сидеть снаружи девять месяцев в году. Поэтому дом замкнут в каре вокруг двора: во дворе тихо при любом ветре, и все комнаты смотрят в него.">
         <figure>
-          <img src="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp"
-               alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево"
-               width="1152" height="864" loading="lazy" decoding="async">
+          <img src="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp" alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево" width="1152" height="864" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Патио</span>
             <span class="work__spec">172 м² · Калининградская обл. · 8 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
     <li class="work__item">
-      <a href="#projects">
+      <button class="work__open" type="button"
+              data-img="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp" data-alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой"
+              data-name="Два проёма" data-spec="118 м² · Тверская обл. · 5 месяцев"
+              data-text="Самый маленький и самый быстрый наш дом. Вся сложность ушла в два глубоких проёма: они держат тень летом, пускают низкое солнце зимой и заменяют собой весь декор.">
         <figure>
-          <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
-               alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой"
-               width="832" height="1248" loading="lazy" decoding="async">
+          <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp" alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой" width="832" height="1248" loading="lazy" decoding="async">
           <figcaption>
             <span class="work__name">Два проёма</span>
             <span class="work__spec">118 м² · Тверская обл. · 5 месяцев</span>
           </figcaption>
         </figure>
         <span class="work__go">Смотреть</span>
-      </a>
+      </button>
     </li>
   </ul>
 </section>
@@ -308,44 +322,85 @@
       </figure>
     </div>
 
-    <div class="pin" data-room="living" style="--x:25%;--y:48%">
-      <span class="pin__stem" aria-hidden="true"></span>
+    <div class="pin" data-room="living" style="--x:23%;--y:64%">
       <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__dot" aria-hidden="true">
+        <span class="pin__mark" aria-hidden="true">
           <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
         </span>
         <span class="pin__text"><b>Диван</b>рогожка, каркас из дуба</span>
       </button>
-    </div>
-
-    <div class="pin" data-room="kitchen" style="--x:50%;--y:56%">
       <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="living" style="--x:53%;--y:75%">
       <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__dot" aria-hidden="true">
+        <span class="pin__mark" aria-hidden="true">
           <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
         </span>
-        <span class="pin__text"><b>Остров</b>кварцит, 40 мм, цельный</span>
+        <span class="pin__text"><b>Стол</b>дуб, цельная столешница</span>
       </button>
-    </div>
-
-    <div class="pin" data-room="bedroom" style="--x:68%;--y:55%">
       <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="kitchen" style="--x:36%;--y:73%">
       <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__dot" aria-hidden="true">
+        <span class="pin__mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
+        </span>
+        <span class="pin__text"><b>Остров</b>кварцит, 40 мм</span>
+      </button>
+      <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="kitchen" style="--x:78%;--y:52%">
+      <button class="pin__btn" type="button" aria-expanded="false">
+        <span class="pin__mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
+        </span>
+        <span class="pin__text"><b>Техника</b>встроенная, скрытая за фасадом</span>
+      </button>
+      <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="bedroom" style="--x:88%;--y:66%">
+      <button class="pin__btn" type="button" aria-expanded="false">
+        <span class="pin__mark" aria-hidden="true">
           <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
         </span>
         <span class="pin__text"><b>Изголовье</b>массив дуба, наш цех</span>
       </button>
-    </div>
-
-    <div class="pin" data-room="terrace" style="--x:21%;--y:46%">
       <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="bedroom" style="--x:46%;--y:84%">
       <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__dot" aria-hidden="true">
+        <span class="pin__mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
+        </span>
+        <span class="pin__text"><b>Подиум</b>дуб, парит над полом</span>
+      </button>
+      <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="terrace" style="--x:12%;--y:64%">
+      <button class="pin__btn" type="button" aria-expanded="false">
+        <span class="pin__mark" aria-hidden="true">
           <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
         </span>
         <span class="pin__text"><b>Тик</b>без покрытия, седеет за два сезона</span>
       </button>
+      <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
+    </div>
+    <div class="pin" data-room="terrace" style="--x:49%;--y:65%">
+      <button class="pin__btn" type="button" aria-expanded="false">
+        <span class="pin__mark" aria-hidden="true">
+          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
+        </span>
+        <span class="pin__text"><b>Стол</b>литой бетон, 180 кг</span>
+      </button>
+      <span class="pin__stem" aria-hidden="true"></span>
+      <span class="pin__dot" aria-hidden="true"></span>
     </div>
   </div>
 
@@ -458,6 +513,11 @@
         В цеху сухо и +18, поэтому дерево ведёт себя предсказуемо,
         в отличие от стройплощадки в ноябре.
       </p>
+      <figure class="steps__shot">
+        <img src="3239ee6d-171e-44fc-b7ec-80def38d3c31.webp"
+             alt="Стык бетонного блока и тёмной деревянной обшивки крупным планом"
+             width="832" height="1248" loading="lazy" decoding="async">
+      </figure>
     </li>
     <li class="steps__step">
       <span class="steps__num">04</span>
@@ -467,6 +527,11 @@
         Передаём дом с мебелью, светом и посудомойкой. Заезжать можно
         в тот же вечер.
       </p>
+      <figure class="steps__shot">
+        <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
+             alt="Собранный дом: белый фасад с двумя глубокими проёмами"
+             width="832" height="1248" loading="lazy" decoding="async">
+      </figure>
     </li>
   </ol>
 </section>
@@ -500,6 +565,20 @@
 </section>
 
 </main>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
+  <button class="sheet__x" type="button" aria-label="Закрыть">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
+  </button>
+  <img class="sheet__img" id="sheet-img" alt=""
+       src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+  <div class="sheet__body">
+    <h3 class="sheet__name" id="sheet-name"></h3>
+    <p class="sheet__spec" id="sheet-spec"></p>
+    <p class="sheet__text" id="sheet-text"></p>
+    <a class="sheet__cta" href="#contact">Хочу такой же</a>
+  </div>
+</dialog>
 
 <footer class="foot">
   <div class="foot__rows">

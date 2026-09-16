@@ -132,16 +132,6 @@
       });
     });
 
-    // выноска раскрывается по нажатию — на тач-экранах наведения нет
-    pins.forEach(function (pin) {
-      var btn = pin.querySelector('.pin__btn');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        var open = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', open ? 'false' : 'true');
-      });
-    });
-
     var settle = function () { seat(live, false); };
     settle();
     showPins(live.dataset.room);
@@ -150,7 +140,46 @@
     window.addEventListener('load', settle);
   }
 
-  /* ---------- 4. Форма ---------- */
+  /* ---------- 4. Окно проекта ---------- */
+  var sheet = document.getElementById('sheet');
+
+  if (sheet && typeof sheet.showModal === 'function') {
+    var sImg  = document.getElementById('sheet-img');
+    var sName = document.getElementById('sheet-name');
+    var sSpec = document.getElementById('sheet-spec');
+    var sText = document.getElementById('sheet-text');
+    var opener = null;
+
+    document.querySelectorAll('.work__open').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        opener = btn;
+        sImg.src = btn.dataset.img;
+        sImg.alt = btn.dataset.alt || '';
+        sName.textContent = btn.dataset.name;
+        sSpec.textContent = btn.dataset.spec;
+        sText.textContent = btn.dataset.text;
+        sheet.scrollTop = 0;
+        sheet.showModal();
+      });
+    });
+
+    sheet.querySelector('.sheet__x').addEventListener('click', function () { sheet.close(); });
+
+    // клик мимо карточки закрывает окно
+    sheet.addEventListener('click', function (e) {
+      if (e.target !== sheet) return;
+      var b = sheet.getBoundingClientRect();
+      var out = e.clientY < b.top || e.clientY > b.bottom || e.clientX < b.left || e.clientX > b.right;
+      if (out) sheet.close();
+    });
+
+    // «Хочу такой же» ведёт к форме — сначала закрываем окно
+    sheet.querySelector('.sheet__cta').addEventListener('click', function () { sheet.close(); });
+
+    sheet.addEventListener('close', function () { if (opener) opener.focus(); });
+  }
+
+  /* ---------- 5. Форма ---------- */
   var form = document.getElementById('lead');
 
   if (form) {
