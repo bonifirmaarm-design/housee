@@ -39,7 +39,8 @@
       if (!freed) { house.style.transition = 'none'; freed = true; }
       var seen = Math.min(window.scrollY, hero.offsetHeight);
       drift = seen * 0.085;
-      house.style.transform = 'translate3d(0,' + drift.toFixed(2) + 'px,0)';
+      // -50% обязателен: инлайновый transform затирает центрирование из CSS
+      house.style.transform = 'translate3d(-50%,' + drift.toFixed(2) + 'px,0)';
     };
 
     window.addEventListener('scroll', function () {

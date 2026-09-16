@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ГРАНЬ — производство частных домов</title>
 <meta name="description" content="ГРАНЬ — производство частных домов полного цикла. Проектируем, изготавливаем и собираем сами: между чертежом и ключами нет подрядчика.">
+<link rel="stylesheet" href="assets/fonts/onest.css">
 <link rel="stylesheet" href="assets/fonts/golos.css">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -43,24 +44,43 @@
 
 <!-- ========== 1. ПЕРВЫЙ ЭКРАН ========== -->
 <section class="hero" aria-labelledby="hero-title">
-  <span class="hero__edge hero__edge--l" aria-hidden="true">полный цикл</span>
-  <span class="hero__edge hero__edge--r" aria-hidden="true">с 2011 года</span>
+
+  <span class="tick tick--a" aria-hidden="true">Резиденции</span>
+  <span class="tick tick--b" aria-hidden="true">Под ключ</span>
+  <span class="tick tick--c" aria-hidden="true">Архитектура</span>
 
   <div class="hero__stage">
-    <h1 class="hero__title" id="hero-title">
-      <span class="hero__line"><span class="hero__word">Дома,</span></span>
-      <span class="hero__line"><span class="hero__word">а не коттеджи</span></span>
-    </h1>
+    <h1 class="hero__title" id="hero-title"><span class="hero__word">Дома, а не коттеджи</span></h1>
+
     <img class="hero__house"
          src="8248f2a1-3ae4-41a9-bc62-8637b6d130ce-removebg-preview.png"
          alt="Дом с фасадом из тёмного колотого камня, снятый с угла"
          width="577" height="433" fetchpriority="high" decoding="async">
+
+    <a class="stamp" href="#projects">
+      <svg class="stamp__ring" viewBox="0 0 132 132" aria-hidden="true">
+        <defs>
+          <path id="stampArc" fill="none"
+                d="M66,66 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/>
+        </defs>
+        <text><textPath href="#stampArc" startOffset="0">
+          Смотреть проекты · Смотреть проекты ·
+        </textPath></text>
+      </svg>
+      <svg class="stamp__core" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3.2v17.6M12 3.2 3.4 8.1v10.4M12 3.2l8.6 4.9v10.4"/>
+      </svg>
+      <span class="vh">Смотреть проекты</span>
+    </a>
   </div>
 
   <div class="hero__foot">
     <p class="hero__lede">
-      Мы проектируем дом, делаем его на своём производстве и собираем на участке.
-      Один договор, одна ответственность, один срок.
+      <svg class="ast" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/>
+      </svg>
+      Проектируем, производим и собираем сами. Один договор,
+      одна ответственность, один срок.
     </p>
 
     <a class="filmcard" href="#process">
@@ -71,6 +91,7 @@
         <span class="filmcard__label">Как устроена студия</span>
         <span class="filmcard__meta">4 минуты</span>
       </span>
+      <span class="filmcard__count">01/04</span>
     </a>
   </div>
 </section>
@@ -282,17 +303,17 @@
       </figure>
     </div>
 
-    <div class="pin" data-room="living" style="--x:46%;--y:62%">
+    <div class="pin" data-room="living" style="--x:25%;--y:48%">
       <span class="pin__stem" aria-hidden="true"></span>
       <button class="pin__btn" type="button" aria-expanded="false">
         <span class="pin__dot" aria-hidden="true">
           <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
         </span>
-        <span class="pin__text"><b>Диван Мяг</b>рогожка, каркас — дуб</span>
+        <span class="pin__text"><b>Диван</b>рогожка, каркас из дуба</span>
       </button>
     </div>
 
-    <div class="pin" data-room="kitchen" style="--x:62%;--y:58%">
+    <div class="pin" data-room="kitchen" style="--x:50%;--y:56%">
       <span class="pin__stem" aria-hidden="true"></span>
       <button class="pin__btn" type="button" aria-expanded="false">
         <span class="pin__dot" aria-hidden="true">
@@ -312,7 +333,7 @@
       </button>
     </div>
 
-    <div class="pin" data-room="terrace" style="--x:40%;--y:60%">
+    <div class="pin" data-room="terrace" style="--x:21%;--y:46%">
       <span class="pin__stem" aria-hidden="true"></span>
       <button class="pin__btn" type="button" aria-expanded="false">
         <span class="pin__dot" aria-hidden="true">

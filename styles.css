@@ -64,6 +64,12 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 .gooey-defs { position: absolute; width: 0; height: 0; pointer-events: none; }
 
+.vh {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; overflow: hidden;
+  clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
 .skip {
   position: fixed; top: 8px; left: 8px; z-index: 99;
   padding: 10px 16px; background: var(--ink); color: var(--paper);
@@ -96,7 +102,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   fill: none; stroke: var(--ink); stroke-width: 1.6;
   stroke-linejoin: miter;
 }
-.mark__name { font-size: 19px; font-weight: 900; letter-spacing: .01em; line-height: 1; }
+.mark__name { font-family: 'Onest', system-ui, sans-serif; font-size: 19px; font-weight: 900; letter-spacing: .01em; line-height: 1; }
 .mark__desc { font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--stone); line-height: 1; }
 
 .nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 4px 26px; padding-top: 4px; }
@@ -112,71 +118,121 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .top__tel { font-size: 13px; font-weight: 500; padding-top: 4px; white-space: nowrap; }
 
 /* ============================================================
-   1. ПЕРВЫЙ ЭКРАН
+   1. ПЕРВЫЙ ЭКРАН — одна строка, дом стоит перед ней во весь рост
    ============================================================ */
 .hero {
   position: relative;
-  padding: clamp(26px, 5vh, 58px) var(--gut) clamp(28px, 5vh, 56px);
+  overflow: hidden;            /* дом уходит за нижнюю полосу и обрезается здесь */
+  padding: clamp(18px, 3vh, 34px) var(--gut) 0;   /* низ закрывает сама полоса .hero__foot */
 }
 
-.hero__edge { position: absolute; top: clamp(44px, 7.5vh, 92px); }
-.hero__edge::before {
+/* метки, разбросанные по краям экрана */
+.tick {
+  position: absolute; z-index: 4;
+  font-family: 'Golos', system-ui, sans-serif;
+  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--stone);
+  white-space: nowrap;
+}
+.tick::before {
   content: ''; display: inline-block;
   width: 4px; height: 4px; border-radius: 50%;
   background: var(--ink); vertical-align: middle;
   margin-right: 8px; margin-bottom: 2px;
 }
-.hero__edge--l { left: var(--gut); }
-.hero__edge--r { right: var(--gut); }
-.hero__edge--l, .hero__edge--r {
-  font-size: 11px; font-weight: 500; letter-spacing: .1em;
-  text-transform: uppercase; color: var(--stone);
-}
+.tick--a { left: var(--gut);  top: clamp(26px, 4.5vh, 54px); }
+.tick--b { right: var(--gut); top: clamp(26px, 4.5vh, 54px); }
+.tick--c { left: var(--gut);  top: clamp(96px, 18vh, 178px); }
 
-.hero__stage { position: relative; margin-top: clamp(30px, 7vh, 76px); }
+.hero__stage {
+  position: relative;
+  min-height: min(56vh, 540px);
+  display: grid;
+  align-items: center;
+  margin-top: clamp(40px, 7.5vh, 86px);
+}
 
 .hero__title {
   position: relative; z-index: 1;
-  font-size: clamp(2.7rem, 13.4vw, 13rem);
+  font-family: 'Onest', 'Golos', system-ui, sans-serif;
+  font-size: clamp(1.9rem, 9.1vw, 8.8rem);
   font-weight: 900;
-  line-height: .88;
-  letter-spacing: -.047em;
+  line-height: .95;
+  letter-spacing: -.05em;
+  white-space: nowrap;
   margin: 0;
+  padding-bottom: .08em;
 }
-.hero__line {
-  display: block;
-  /* окно для overflow на выходе — чтобы не срезало выносные элементы букв */
-  padding-bottom: .1em;
-  margin-bottom: -.1em;
-}
-.hero__line:nth-child(2) { padding-left: .015em; }
-
 .hero__word { display: inline-block; will-change: transform; }
 
+/* дом вытянут во весь первый экран и обрезан по бокам:
+   остаётся ребро объёма — то, из-за чего студия так называется */
 .hero__house {
   position: absolute; z-index: 2;
-  right: clamp(56px, 13.5vw, 240px);
-  bottom: -5%;
-  width: clamp(196px, 34vw, 482px);
-  height: auto;
-  filter: drop-shadow(0 26px 34px rgba(22,21,15,.30));
+  left: 52%;
+  top: -12%;
+  width: clamp(178px, 26vw, 366px);
+  height: 130%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 30px 44px rgba(22,21,15,.28));
   pointer-events: none;
   will-change: transform;
 }
 
+/* круглая печать с текстом по окружности */
+.stamp {
+  position: absolute; z-index: 3;
+  left: clamp(0px, 3vw, 58px);
+  bottom: clamp(-10px, 1vh, 24px);
+  width: clamp(86px, 9.4vw, 132px);
+  aspect-ratio: 1;
+  display: grid; place-items: center;
+}
+.stamp__ring {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  animation: stampSpin 26s linear infinite;
+}
+.stamp__ring text {
+  font-family: 'Golos', system-ui, sans-serif;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: .14em; text-transform: uppercase;
+  fill: var(--stone);
+}
+.stamp__core {
+  position: relative;
+  width: 26%; height: 26%;
+  fill: none; stroke: var(--ink); stroke-width: 1.6;
+}
+.stamp:hover .stamp__core { stroke: var(--ink); }
+.stamp:hover .stamp__ring text { fill: var(--ink); }
+@keyframes stampSpin { to { transform: rotate(360deg); } }
+
 .hero__foot {
+  position: relative; z-index: 5;
+  background: var(--paper);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: clamp(26px, 5vw, 76px);
-  margin-top: clamp(38px, 7vh, 82px);
-  padding-top: 22px;
+  margin-top: clamp(26px, 4vh, 54px);
+  padding-top: 20px;
+  padding-bottom: clamp(20px, 4vh, 44px);
   border-top: 1px solid var(--hair);
 }
 
-.hero__lede { max-width: 46ch; font-size: clamp(16px, 1.35vw, 19px); color: var(--ink); }
+.hero__lede {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px;
+  max-width: 50ch; font-size: clamp(15px, 1.25vw, 17px);
+}
+.ast {
+  width: 15px; height: 15px; margin-top: 4px;
+  fill: none; stroke: var(--ink); stroke-width: 1.5;
+}
 
-.filmcard { display: grid; grid-template-columns: 96px auto; align-items: center; gap: 15px; }
+.filmcard { display: grid; grid-template-columns: 96px auto auto; align-items: center; gap: 15px; }
 .filmcard img {
   width: 96px; height: 68px; object-fit: cover;
   filter: grayscale(1) contrast(1.05);
@@ -186,6 +242,12 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .filmcard__body { display: grid; gap: 3px; }
 .filmcard__label { font-size: 13px; font-weight: 500; }
 .filmcard__meta { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--stone); }
+.filmcard__count {
+  font-family: 'Onest', system-ui, sans-serif;
+  font-size: 12px; color: var(--stone);
+  font-variant-numeric: tabular-nums;
+  padding-left: clamp(10px, 2vw, 26px);
+}
 
 /* ============================================================
    2. МАНИФЕСТ — чёрная инверсия
@@ -194,6 +256,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .manifest__inner { padding: var(--band) var(--gut); }
 
 .manifest__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif;
   font-size: clamp(1.8rem, 4.1vw, 3.7rem);
   font-weight: 500; line-height: 1.06; letter-spacing: -.028em;
   max-width: 18ch;
@@ -235,6 +298,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   gap: clamp(26px, 5vw, 86px); align-items: start;
 }
 .tally__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif;
   font-size: clamp(1.6rem, 3.5vw, 3.1rem);
   font-weight: 500; line-height: 1.1; letter-spacing: -.028em;
 }
@@ -250,6 +314,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .tally__cell + .tally__cell { border-left: 1px solid var(--hair); padding-left: clamp(14px, 2.4vw, 34px); }
 .tally__cell dt { font-size: 11px; font-weight: 500; letter-spacing: .09em; text-transform: uppercase; color: var(--stone); }
 .tally__cell dd {
+  font-family: 'Onest', system-ui, sans-serif;
   margin: 10px 0 0;
   font-size: clamp(2.4rem, 5.6vw, 4.6rem);
   font-weight: 900; line-height: .92; letter-spacing: -.045em;
@@ -266,7 +331,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   gap: clamp(22px, 4vw, 70px); align-items: end;
   padding-bottom: 26px; border-bottom: 1px solid var(--hair);
 }
-.work__title { font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
+.work__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif; font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
 .work__intro { font-size: 14.5px; color: var(--stone); max-width: 48ch; justify-self: end; }
 
 .work__grid {
@@ -315,7 +381,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   gap: clamp(22px, 4vw, 70px); align-items: end;
   padding-bottom: 26px; border-bottom: 1px solid var(--hair);
 }
-.inside__title { font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
+.inside__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif; font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
 .inside__intro { font-size: 14.5px; color: var(--stone); max-width: 46ch; justify-self: end; }
 
 .inside__stage {
@@ -437,7 +504,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   gap: clamp(22px, 4vw, 70px); align-items: end;
   padding-bottom: 26px; border-bottom: 1px solid var(--hair);
 }
-.team__title { font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
+.team__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif; font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.05; }
 .team__intro { font-size: 14.5px; color: var(--stone); max-width: 44ch; justify-self: end; }
 
 .team__grid {
@@ -466,6 +534,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
    ============================================================ */
 .steps { padding: 0 var(--gut) clamp(70px, 11vh, 140px); }
 .steps__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif;
   font-size: clamp(1.6rem, 3.4vw, 3rem); font-weight: 500;
   letter-spacing: -.03em; line-height: 1.05;
   padding-bottom: 26px; border-bottom: 1px solid var(--hair);
@@ -494,6 +563,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .talk__inner { padding: var(--band) var(--gut); }
 
 .talk__title {
+  font-family: 'Onest', 'Golos', system-ui, sans-serif;
   font-size: clamp(1.9rem, 4.4vw, 4rem);
   font-weight: 500; line-height: 1.05; letter-spacing: -.032em;
 }
@@ -561,6 +631,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .foot__col a:hover { color: var(--paper); background-size: 100% 1px; }
 
 .foot__mark {
+  font-family: 'Onest', system-ui, sans-serif;
   font-size: clamp(4.2rem, 25vw, 23rem);
   font-weight: 900; line-height: .78; letter-spacing: -.05em;
   margin-top: clamp(40px, 7vh, 90px);
@@ -577,22 +648,22 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 /* ============================================================
    ОРКЕСТРОВКА ЗАГРУЗКИ — единственная непрошеная анимация
    ============================================================ */
-.is-armed .hero__word { transform: translateY(102%); }
-.is-armed .hero__title .hero__line { overflow: hidden; }
-.is-armed .hero__house { transform: translateY(22px); opacity: 0; }
-.is-armed .hero__edge,
+.is-armed .hero__word { transform: translateY(104%); }
+.is-armed .hero__title { overflow: hidden; }
+.is-armed .hero__house { transform: translateX(-50%) translateY(26px); opacity: 0; }
+.is-armed .tick,
+.is-armed .stamp,
 .is-armed .hero__foot { opacity: 0; }
 
-.is-lit .hero__title .hero__line { overflow: hidden; }
+.is-lit .hero__title { overflow: hidden; }
 .is-lit .hero__word { transform: none; transition: transform var(--t-slow); }
-.is-lit .hero__line:nth-child(2) .hero__word { transition-delay: 70ms; }
-.is-lit .hero__line:nth-child(3) .hero__word { transition-delay: 140ms; }
 .is-lit .hero__house {
-  transform: none; opacity: 1;
-  transition: transform 860ms cubic-bezier(.16,.84,.28,1) 240ms, opacity 500ms linear 240ms;
+  transform: translateX(-50%); opacity: 1;
+  transition: transform 900ms cubic-bezier(.16,.84,.28,1) 200ms, opacity 520ms linear 200ms;
 }
-.is-lit .hero__edge { opacity: 1; transition: opacity 500ms linear 620ms; }
-.is-lit .hero__foot { opacity: 1; transition: opacity 500ms linear 700ms; }
+.is-lit .tick { opacity: 1; transition: opacity 520ms linear 620ms; }
+.is-lit .stamp { opacity: 1; transition: opacity 520ms linear 700ms; }
+.is-lit .hero__foot { opacity: 1; transition: opacity 520ms linear 760ms; }
 
 /* ============================================================
    АДАПТИВ
@@ -614,12 +685,20 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   .nav { grid-column: 1 / -1; justify-content: flex-start; order: 3; gap: 4px 16px; }
   .top__tel { justify-self: end; }
 
-  .hero__edge { position: static; display: inline-block; margin-right: 18px; }
-  .hero__stage { margin-top: 26px; }
-  .hero__house { position: relative; right: auto; bottom: auto; width: 66%; margin: -13% 0 0 auto; }
-  .hero__title { font-size: clamp(2.7rem, 13.2vw, 6rem); }
-  .hero__line:nth-child(2) { padding-left: 0; }
+  .tick--c { display: none; }
+  .tick--a, .tick--b { top: 10px; }
+  .hero__stage { min-height: 0; margin-top: 44px; }
+  .hero__title { font-size: 12.4vw; letter-spacing: -.045em; white-space: normal; }
+  .hero__house {
+    position: relative; left: auto; top: auto;
+    transform: none; width: 54%; height: auto;
+    margin: -16% 0 0 auto; object-fit: contain;
+  }
+  .is-armed .hero__house { transform: translateY(26px); }
+  .is-lit .hero__house { transform: none; }
+  .stamp { position: relative; left: auto; bottom: auto; margin-top: 18px; }
   .hero__foot { grid-template-columns: 1fr; align-items: start; gap: 26px; }
+  .filmcard { grid-template-columns: 96px 1fr auto; }
 
   .tally__head { grid-template-columns: 1fr; }
   .tally__cols { grid-template-columns: 1fr; }
@@ -657,20 +736,22 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   .pin { transform: translate(-50%, -100%) scale(.84); }
   .rooms__tab { padding: 10px 16px; font-size: 12.5px; }
   .foot__rows { grid-template-columns: 1fr; }
-  .filmcard { grid-template-columns: 78px auto; }
+  .filmcard { grid-template-columns: 78px 1fr auto; gap: 12px; }
   .filmcard img { width: 78px; height: 56px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .stamp__ring { animation: none; }
   *, *::before, *::after {
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
-  .is-armed .hero__word,
-  .is-armed .hero__house { transform: none; opacity: 1; }
-  .is-armed .hero__edge,
+  .is-armed .hero__word { transform: none; }
+  .is-armed .hero__house { transform: translateX(-50%); opacity: 1; }
+  .is-armed .tick,
+  .is-armed .stamp,
   .is-armed .hero__foot { opacity: 1; }
 }
 
