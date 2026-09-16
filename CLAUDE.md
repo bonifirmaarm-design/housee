@@ -62,6 +62,15 @@
 
 ---
 
+## Опубликовано
+
+Артефакт (приватный, ссылка у владельца):
+https://claude.ai/artifact/9mGLjEU4JnAFJX4eGS3vvy
+
+Пересобрать и переопубликовать: `python3 tools/build-artifact.py`, затем
+опубликовать получившийся `build/artifact.html` **тем же URL** (параметр `url`),
+иначе создастся новый артефакт. Карта картинок — в `build/artifact-files.json`.
+
 ## Технические договорённости
 
 - **Стек: чистый HTML/CSS/JS.** `index.html`, `styles.css`, `main.js` в корне.
