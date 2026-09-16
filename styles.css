@@ -122,8 +122,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
    ============================================================ */
 .hero {
   position: relative;
-  overflow: hidden;            /* дом уходит за нижнюю полосу и обрезается здесь */
-  padding: clamp(18px, 3vh, 34px) var(--gut) 0;   /* низ закрывает сама полоса .hero__foot */
+  padding: clamp(18px, 3vh, 34px) var(--gut) clamp(20px, 3.4vh, 38px);
 }
 
 /* метки, разбросанные по краям экрана */
@@ -142,26 +141,25 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 }
 .tick--a { left: var(--gut);  top: clamp(26px, 4.5vh, 54px); }
 .tick--b { right: var(--gut); top: clamp(26px, 4.5vh, 54px); }
-.tick--c { left: var(--gut);  top: clamp(96px, 18vh, 178px); }
+.tick--c { right: 0; bottom: 8px; }
 
 .hero__stage {
   position: relative;
-  min-height: min(56vh, 540px);
-  display: grid;
-  align-items: center;
-  margin-top: clamp(40px, 7.5vh, 86px);
+  margin-top: clamp(28px, 5vh, 62px);
+  /* низ сцены = низ дома: 14px отступ сверху + высота дома (27.8vw) − высота слова (18.9vw) */
+  padding-bottom: calc(14px + 8.9vw);
 }
 
 .hero__title {
   position: relative; z-index: 1;
-  font-family: 'Onest', 'Golos', system-ui, sans-serif;
-  font-size: clamp(1.9rem, 9.1vw, 8.8rem);
+  font-family: 'Unbounded', 'Onest', system-ui, sans-serif;
+  font-size: clamp(2.9rem, 22vw, 27rem);
   font-weight: 900;
-  line-height: .95;
-  letter-spacing: -.05em;
+  line-height: .8;
+  letter-spacing: -.035em;
   white-space: nowrap;
   margin: 0;
-  padding-bottom: .08em;
+  padding-bottom: .06em;
 }
 .hero__word { display: inline-block; will-change: transform; }
 
@@ -169,14 +167,12 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
    остаётся ребро объёма — то, из-за чего студия так называется */
 .hero__house {
   position: absolute; z-index: 2;
-  left: 52%;
-  top: -12%;
-  width: clamp(178px, 26vw, 366px);
-  height: 130%;
-  object-fit: cover;
-  object-position: 50% 50%;
+  left: 50%;
+  top: clamp(8px, 1.6vh, 26px);
+  width: clamp(212px, 37vw, 760px);
+  height: auto;
   transform: translateX(-50%);
-  filter: drop-shadow(0 30px 44px rgba(22,21,15,.28));
+  filter: drop-shadow(0 34px 46px rgba(22,21,15,.26));
   pointer-events: none;
   will-change: transform;
 }
@@ -184,8 +180,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 /* круглая печать с текстом по окружности */
 .stamp {
   position: absolute; z-index: 3;
-  left: clamp(0px, 3vw, 58px);
-  bottom: clamp(-10px, 1vh, 24px);
+  left: clamp(0px, 2vw, 42px);
+  bottom: clamp(0px, 2vh, 34px);
   width: clamp(86px, 9.4vw, 132px);
   aspect-ratio: 1;
   display: grid; place-items: center;
@@ -212,14 +208,13 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 .hero__foot {
   position: relative; z-index: 5;
-  background: var(--paper);
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
   gap: clamp(26px, 5vw, 76px);
-  margin-top: clamp(26px, 4vh, 54px);
+  margin-top: 0;
   padding-top: 20px;
-  padding-bottom: clamp(20px, 4vh, 44px);
+  padding-bottom: 0;
   border-top: 1px solid var(--hair);
 }
 
@@ -252,7 +247,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 /* ============================================================
    2. МАНИФЕСТ — чёрная инверсия
    ============================================================ */
-.manifest { background: var(--void); color: var(--paper); margin-top: clamp(40px, 8vh, 96px); }
+.manifest { background: var(--void); color: var(--paper); }
 .manifest__inner { padding: var(--band) var(--gut); }
 
 .manifest__title {
@@ -631,9 +626,9 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .foot__col a:hover { color: var(--paper); background-size: 100% 1px; }
 
 .foot__mark {
-  font-family: 'Onest', system-ui, sans-serif;
-  font-size: clamp(4.2rem, 25vw, 23rem);
-  font-weight: 900; line-height: .78; letter-spacing: -.05em;
+  font-family: 'Unbounded', 'Onest', system-ui, sans-serif;
+  font-size: clamp(2.6rem, 21.6vw, 26rem);
+  font-weight: 900; line-height: .82; letter-spacing: -.035em;
   margin-top: clamp(40px, 7vh, 90px);
   color: #1E1E21;
   user-select: none;
@@ -687,16 +682,10 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
   .tick--c { display: none; }
   .tick--a, .tick--b { top: 10px; }
-  .hero__stage { min-height: 0; margin-top: 44px; }
-  .hero__title { font-size: 12.4vw; letter-spacing: -.045em; white-space: normal; }
-  .hero__house {
-    position: relative; left: auto; top: auto;
-    transform: none; width: 54%; height: auto;
-    margin: -16% 0 0 auto; object-fit: contain;
-  }
-  .is-armed .hero__house { transform: translateY(26px); }
-  .is-lit .hero__house { transform: none; }
-  .stamp { position: relative; left: auto; bottom: auto; margin-top: 18px; }
+  .hero__stage { margin-top: 30px; padding-bottom: calc(13px + 26.4vw); }
+  .hero__title { font-size: 21.5vw; letter-spacing: -.03em; }
+  .hero__house { width: 66%; top: clamp(6px, 1.4vh, 16px); }
+  .stamp { display: none; }   /* ссылка на проекты есть в меню */
   .hero__foot { grid-template-columns: 1fr; align-items: start; gap: 26px; }
   .filmcard { grid-template-columns: 96px 1fr auto; }
 
