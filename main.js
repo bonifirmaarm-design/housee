@@ -60,7 +60,7 @@
     var tabs   = Array.prototype.slice.call(rooms.querySelectorAll('.rooms__tab'));
     var blob   = rooms.querySelector('.rooms__blob');
     var drop   = rooms.querySelector('.rooms__drop');
-    var slides = Array.prototype.slice.call(document.querySelectorAll('.inside__slide'));
+    var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
     var pins   = Array.prototype.slice.call(document.querySelectorAll('.pin'));
     var live   = tabs[0];
     var pinTimer = null;
@@ -150,7 +150,7 @@
     var sText = document.getElementById('sheet-text');
     var opener = null;
 
-    document.querySelectorAll('.work__open').forEach(function (btn) {
+    document.querySelectorAll('.shot').forEach(function (btn) {
       btn.addEventListener('click', function () {
         opener = btn;
         sImg.src = btn.dataset.img;

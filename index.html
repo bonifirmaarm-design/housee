@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<svg class="gooey-defs" aria-hidden="true" focusable="false">
+<svg class="defs" aria-hidden="true" focusable="false">
   <defs>
     <filter id="gooey">
       <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur"/>
@@ -20,41 +20,47 @@
         values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -11" result="goo"/>
       <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
     </filter>
+    <symbol id="ast" viewBox="0 0 24 24">
+      <path d="M12 2.6v18.8M2.6 12h18.8M5.4 5.4l13.2 13.2M18.6 5.4L5.4 18.6"/>
+    </symbol>
+    <symbol id="mark" viewBox="0 0 24 24">
+      <path d="M12 3.2v17.6M12 3.2 3.4 8.1v10.4M12 3.2l8.6 4.9v10.4"/>
+    </symbol>
   </defs>
 </svg>
 
-<a class="skip" href="#projects">К проектам</a>
+<a class="skip" href="#arch">К проектам</a>
 
+<!-- ========== ШАПКА ========== -->
 <header class="top">
-  <a class="mark" href="#top" aria-label="ГРАНЬ — на главную">
-    <svg class="mark__glyph" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2v17.6M12 3.2 3.4 8.1v10.4M12 3.2l8.6 4.9v10.4"/></svg>
-    <span class="mark__name">ГРАНЬ</span>
-    <span class="mark__desc">производство&nbsp;домов</span>
+  <a class="brand" href="#top">
+    <svg class="brand__glyph" aria-hidden="true"><use href="#mark"/></svg>
+    <span class="brand__name">ГРАНЬ</span>
+    <span class="brand__sub">производство домов</span>
   </a>
+
   <nav class="nav" aria-label="Разделы">
-    <a href="#manifest">Подход</a>
-    <a href="#projects">Проекты</a>
-    <a href="#inside">Интерьер</a>
+    <a href="#top" aria-current="page">Главная</a>
+    <a href="#arch">Проекты</a>
     <a href="#team">Студия</a>
-    <a href="#process">Как строим</a>
+    <a href="#manifest">Подход</a>
+    <a href="#inside">Интерьер</a>
+    <a href="#contact">Контакты</a>
   </nav>
-  <a class="top__tel" href="tel:+78000000000">+7 800 000 00 00</a>
+
+  <p class="top__claim">Производим дома,<br>которые переживут моду</p>
+
+  <a class="top__tel" href="tel:+78000000000">7 800 000 15 15</a>
 </header>
 
 <main id="top">
 
 <!-- ========== 1. ПЕРВЫЙ ЭКРАН ========== -->
 <section class="hero" aria-labelledby="hero-title">
-
-  <div class="hero__band">
-    <span class="tick" aria-hidden="true">Резиденции</span>
-    <p class="hero__claim">Проектируем дома,<br>которые переживут моду</p>
-    <span class="tick" aria-hidden="true">Под ключ</span>
-  </div>
+  <span class="tick tick--l">Резиденции</span>
+  <span class="tick tick--r">Под ключ</span>
 
   <div class="hero__stage">
-    <span class="tick tick--c" aria-hidden="true">Архитектура</span>
-
     <h1 class="hero__title" id="hero-title">
       <span class="hero__word">ГРАНЬ</span>
       <span class="vh">— производство частных домов полного цикла</span>
@@ -65,257 +71,235 @@
          alt="Дом с фасадом из тёмного колотого камня, снятый с угла"
          width="577" height="433" fetchpriority="high" decoding="async">
 
-    <a class="stamp" href="#projects">
-      <svg class="stamp__ring" viewBox="0 0 132 132" aria-hidden="true">
-        <defs>
-          <path id="stampArc" fill="none"
-                d="M66,66 m-50,0 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"/>
-        </defs>
-        <text><textPath href="#stampArc" startOffset="0">
-          Смотреть проекты · Смотреть проекты ·
-        </textPath></text>
+    <span class="tick tick--m">Архитектура</span>
+
+    <a class="seal" href="#arch">
+      <svg class="seal__ring" viewBox="0 0 132 132" aria-hidden="true">
+        <defs><path id="sealArc" fill="none" d="M66,66 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs>
+        <text><textPath href="#sealArc" startOffset="0">Подробнее · Подробнее · Подробнее ·</textPath></text>
       </svg>
-      <svg class="stamp__core" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 3.2v17.6M12 3.2 3.4 8.1v10.4M12 3.2l8.6 4.9v10.4"/>
-      </svg>
+      <svg class="seal__core" aria-hidden="true"><use href="#mark"/></svg>
       <span class="vh">Смотреть проекты</span>
-    </a>  </div>
+    </a>
 
-  <div class="hero__foot">
-    <p class="hero__lede">
-      <svg class="ast" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/>
-      </svg>
-      Проектируем, производим и собираем сами.
-      Один договор, один срок.
-    </p>
+    <div class="hero__say">
+      <span class="switch" aria-hidden="true"><svg><use href="#ast"/></svg></span>
+      <p>Проектируем дом, делаем его на своём производстве<br>
+         и собираем на участке. Один договор,<br>
+         одна ответственность, один срок.</p>
+    </div>
 
-    <a class="filmcard" href="#team">
+    <a class="film" href="#team">
+      <span class="film__label">Смотреть видео о нас</span>
       <img src="e05cc2de-54f4-4d2b-ac4a-4afc1500d2d2.webp"
            alt="Архитектор студии разбирает чертёж за рабочим столом рядом с макетами домов"
            width="1152" height="864" loading="lazy" decoding="async">
-      <span class="filmcard__body">
-        <span class="filmcard__label">Как устроена студия</span>
-        <span class="filmcard__meta">4 минуты</span>
-      </span>
-      <span class="filmcard__count">01/04</span>
     </a>
 
-    <a class="cta" href="#contact">
-      Обсудить участок
-      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 13L13 3M13 3H6M13 3v7"/></svg>
-    </a>
-
+    <span class="hero__count">(01/04)</span>
   </div>
 </section>
 
-<!-- ========== 2. МАНИФЕСТ ========== -->
-<section class="manifest" id="manifest" aria-labelledby="manifest-title">
-  <div class="manifest__inner">
-    <h2 class="manifest__title" id="manifest-title">
-      Между чертежом и ключами<br>нет подрядчика
-    </h2>
+<!-- ========== 2. ТЁМНЫЙ БЛОК ========== -->
+<section class="mani" id="manifest" aria-labelledby="mani-title">
+  <div class="mani__in">
+    <div class="head head--dark">
+      <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+      <h2 id="mani-title">Мы делаем дома целиком —<span class="step">от чертежа до ключей.</span></h2>
+    </div>
 
-    <div class="manifest__grid">
-      <figure class="manifest__shot manifest__shot--a">
+    <div class="mani__grid">
+      <figure class="mani__a">
         <img src="3239ee6d-171e-44fc-b7ec-80def38d3c31.webp"
              alt="Стык бетонного блока и тёмной деревянной обшивки крупным планом"
              width="832" height="1248" loading="lazy" decoding="async">
       </figure>
-      <figure class="manifest__shot manifest__shot--b">
+      <figure class="mani__b">
         <img src="2a7af6f0-0494-46bf-a302-40c9118bf445.webp"
              alt="Тёмная лестница с линейной подсветкой вдоль стены"
              width="1024" height="1024" loading="lazy" decoding="async">
       </figure>
-      <figure class="manifest__shot manifest__shot--c">
+      <figure class="mani__c">
         <img src="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp"
              alt="Бетонный дом с консольным вторым этажом на зелёном склоне"
              width="1152" height="864" loading="lazy" decoding="async">
       </figure>
 
-      <div class="manifest__note">
-        <p>
-          Архитектор, конструктор и цех сидят в одном здании и смотрят на один чертёж.
-          Поэтому узел, нарисованный в понедельник, в четверг уже фрезеруют, а не
-          пересогласовывают.
-        </p>
-        <p class="manifest__note-b">
-          Мы беремся за шесть домов в год. Больше — и придётся звать подрядчиков,
-          а вместе с ними вернутся сроки, за которые никто не отвечает.
-        </p>
+      <div class="mani__text">
+        <p>Архитектор, конструктор и цех сидят в одном здании
+           и смотрят на один чертёж. Узел, нарисованный
+           в понедельник, в четверг уже фрезеруют,
+           а не пересогласовывают.</p>
+        <a class="mani__link" href="#arch">Смотреть проекты
+          <svg class="ast ast--sm" aria-hidden="true"><use href="#ast"/></svg>
+        </a>
       </div>
 
-      <ul class="manifest__chain">
-        <li>Архитектура</li>
-        <li>Конструктив</li>
-        <li>Производство</li>
-        <li>Сборка</li>
+      <ul class="chain">
+        <li>Архитектура /</li>
+        <li>Конструктив /</li>
+        <li>Производство /</li>
+        <li>Сборка /</li>
       </ul>
+
+      <svg class="mani__arrow" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M40 8L10 38M10 38V16M10 38h22"/>
+      </svg>
+
+      <span class="mani__mark">(ГРАНЬ)</span>
     </div>
   </div>
 </section>
 
 <!-- ========== 3. СЧЁТ ========== -->
 <section class="tally" aria-labelledby="tally-title">
-  <div class="tally__head">
-    <h2 class="tally__title" id="tally-title">
-      За четырнадцать лет мы передали<br>владельцам сорок семь домов
-    </h2>
-    <div class="tally__cols">
-      <p>
-        Первый дом собрали в 2011 году под Приозерском — 96 квадратов, каркас,
-        чёрная доска. Он стоит до сих пор, и мы каждые пару лет туда заезжаем.
-      </p>
-      <p>
-        С тех пор поменялось почти всё: появился свой цех, ЧПУ, конструкторский
-        отдел. Не поменялось одно: дом по-прежнему рисует тот, кто потом
-        отвечает за его сборку.
-      </p>
-    </div>
+  <div class="head">
+    <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+    <h2 id="tally-title">За четырнадцать лет<span class="step">мы передали сорок семь домов.</span></h2>
+  </div>
+
+  <div class="tally__cols">
+    <p>Первый дом собрали в 2011 году под Приозерском: 96 квадратов,
+       каркас, чёрная доска. Он стоит до сих пор, и мы каждые пару лет
+       туда заезжаем.</p>
+    <p>С тех пор поменялось почти всё: появился свой цех, ЧПУ,
+       конструкторский отдел. Не поменялось одно: дом рисует тот,
+       кто потом отвечает за его сборку.</p>
   </div>
 
   <dl class="tally__row">
-    <div class="tally__cell"><dt>Лет практики</dt><dd>14</dd></div>
-    <div class="tally__cell"><dt>Домов передано</dt><dd>47</dd></div>
-    <div class="tally__cell"><dt>Человек в студии</dt><dd>9</dd></div>
-    <div class="tally__cell"><dt>Месяцев до ключей</dt><dd>7</dd></div>
+    <div class="cell"><dd>14</dd><dt>лет практики</dt></div>
+    <div class="cell"><dd>9</dd><dt>человек в студии</dt></div>
+    <div class="cell"><dd>7</dd><dt>месяцев до ключей</dt></div>
+    <div class="cell"><dd>6</dd><dt>домов в год, не больше</dt></div>
   </dl>
 </section>
 
-<!-- ========== 4. ПРОЕКТЫ ========== -->
-<section class="work" id="projects" aria-labelledby="work-title">
-  <div class="work__head">
-    <h2 class="work__title" id="work-title">Построенные дома</h2>
-    <p class="work__intro">
-      Шесть из сорока семи. Площадь указана по внутреннему контуру,
-      срок считаем от подписания до передачи ключей.
-    </p>
+<!-- ========== 4. НАША АРХИТЕКТУРА ========== -->
+<section class="arch" id="arch" aria-labelledby="arch-title">
+  <div class="head">
+    <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+    <h2 id="arch-title">Наша архитектура</h2>
   </div>
 
-  <ul class="work__grid">
-    <li class="work__item work__item--tall">
-      <button class="work__open" type="button"
-              data-img="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp" data-alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане"
-              data-name="Сосновая, 14" data-spec="154 м² · Ленинградская обл. · 6 месяцев"
-              data-text="Участок в сосняке, где нельзя было валить деревья. Дом встал на 14 свай между стволами, фасад — обожжённая доска, чтобы через десять лет он всё ещё был чёрным без покраски. Витраж во фронтоне поймал единственный просвет в кронах.">
-        <figure>
-          <img src="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp" alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане" width="1152" height="864" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Сосновая, 14</span>
-            <span class="work__spec">154 м² · Ленинградская обл. · 6 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-    <li class="work__item">
-      <button class="work__open" type="button"
-              data-img="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp" data-alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах"
-              data-name="Дом на Кленовой" data-spec="228 м² · Подмосковье · 9 месяцев"
-              data-text="Два объёма со сдвигом: нижний в штукатурке, верхний в термодоске. Сдвиг дал навес над входом и террасу на втором этаже, не добавив ни метра к пятну застройки.">
-        <figure>
-          <img src="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp" alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах" width="1280" height="720" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Дом на Кленовой</span>
-            <span class="work__spec">228 м² · Подмосковье · 9 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-    <li class="work__item">
-      <button class="work__open" type="button"
-              data-img="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp" data-alt="Бетонный дом с вынесенным вторым этажом на горном склоне"
-              data-name="Склон" data-spec="196 м² · Красная Поляна · 11 месяцев"
-              data-text="Уклон участка — 24 градуса. Вместо того чтобы срезать склон, вынесли второй этаж консолью на 4,2 метра. Монолит делали на месте, всё остальное привезли готовым.">
-        <figure>
-          <img src="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp" alt="Бетонный дом с вынесенным вторым этажом на горном склоне" width="1152" height="864" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Склон</span>
-            <span class="work__spec">196 м² · Красная Поляна · 11 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-    <li class="work__item work__item--wide">
-      <button class="work__open" type="button"
-              data-img="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp" data-alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой"
-              data-name="Оливковый двор" data-spec="310 м² · Южный берег Крыма · 14 месяцев"
-              data-text="Дом развёрнут от дороги и раскрыт к морю. Травертин на террасе тот же, что на полу внутри, поэтому граница между домом и двором почти не читается. Оливы — старые, пересаженные с участка в трёх километрах.">
-        <figure>
-          <img src="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp" alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой" width="1152" height="864" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Оливковый двор</span>
-            <span class="work__spec">310 м² · Южный берег Крыма · 14 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-    <li class="work__item">
-      <button class="work__open" type="button"
-              data-img="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp" data-alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево"
-              data-name="Патио" data-spec="172 м² · Калининградская обл. · 8 месяцев"
-              data-text="Ветер с залива не даёт сидеть снаружи девять месяцев в году. Поэтому дом замкнут в каре вокруг двора: во дворе тихо при любом ветре, и все комнаты смотрят в него.">
-        <figure>
-          <img src="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp" alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево" width="1152" height="864" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Патио</span>
-            <span class="work__spec">172 м² · Калининградская обл. · 8 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-    <li class="work__item">
-      <button class="work__open" type="button"
-              data-img="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp" data-alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой"
-              data-name="Два проёма" data-spec="118 м² · Тверская обл. · 5 месяцев"
-              data-text="Самый маленький и самый быстрый наш дом. Вся сложность ушла в два глубоких проёма: они держат тень летом, пускают низкое солнце зимой и заменяют собой весь декор.">
-        <figure>
-          <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp" alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой" width="832" height="1248" loading="lazy" decoding="async">
-          <figcaption>
-            <span class="work__name">Два проёма</span>
-            <span class="work__spec">118 м² · Тверская обл. · 5 месяцев</span>
-          </figcaption>
-        </figure>
-        <span class="work__go">Смотреть</span>
-      </button>
-    </li>
-  </ul>
+  <div class="arch__grid">
+    <button class="shot shot--1" type="button"
+            data-img="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp"
+            data-alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане"
+            data-name="Сосновая, 14" data-spec="154 м² · Ленинградская обл. · 6 месяцев"
+            data-text="Участок в сосняке, где нельзя было валить деревья. Дом встал на 14 свай между стволами, фасад — обожжённая доска, чтобы через десять лет он всё ещё был чёрным без покраски. Витраж во фронтоне поймал единственный просвет в кронах.">
+      <img src="4ab65cc6-c54d-48c2-94ae-1023b5bc0989.webp"
+           alt="Чёрный дом с острым фронтоном и витражом в сосновом лесу в тумане"
+           width="1152" height="864" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Частный дом</span><span>154 м²</span></span>
+      <span class="shot__name">Сосновая, 14</span>
+    </button>
+
+    <div class="big big--1">
+      <span class="big__n">47</span>
+      <p>домов передано<br>владельцам</p>
+    </div>
+
+    <button class="shot shot--2" type="button"
+            data-img="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp"
+            data-alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах"
+            data-name="Дом на Кленовой" data-spec="228 м² · Подмосковье · 9 месяцев"
+            data-text="Два объёма со сдвигом: нижний в штукатурке, верхний в термодоске. Сдвиг дал навес над входом и террасу на втором этаже, не добавив ни метра к пятну застройки.">
+      <img src="b1acb6bf-656e-4416-b4d1-70b90a5d0047.webp"
+           alt="Двухэтажный дом вечером: тёмное дерево, штукатурка, тёплый свет в окнах"
+           width="1280" height="720" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Частный дом</span><span>228 м²</span></span>
+      <span class="shot__name">Дом на Кленовой</span>
+    </button>
+
+    <button class="shot shot--3" type="button"
+            data-img="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp"
+            data-alt="Бетонный дом с вынесенным вторым этажом на горном склоне"
+            data-name="Склон" data-spec="196 м² · Красная Поляна · 11 месяцев"
+            data-text="Уклон участка — 24 градуса. Вместо того чтобы срезать склон, вынесли второй этаж консолью на 4,2 метра. Монолит делали на месте, всё остальное привезли готовым.">
+      <img src="88cfd76b-6d06-4986-982d-c74fd26f0d4c.webp"
+           alt="Бетонный дом с вынесенным вторым этажом на горном склоне"
+           width="1152" height="864" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Дом на склоне</span><span>196 м²</span></span>
+      <span class="shot__name">Склон</span>
+    </button>
+
+    <div class="big big--2">
+      <span class="big__n">2011</span>
+      <p>первый дом<br>под Приозерском</p>
+    </div>
+
+    <p class="arch__say">Выражаем<br>истинный характер</p>
+
+    <button class="shot shot--4" type="button"
+            data-img="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp"
+            data-alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой"
+            data-name="Оливковый двор" data-spec="310 м² · Южный берег Крыма · 14 месяцев"
+            data-text="Дом развёрнут от дороги и раскрыт к морю. Травертин на террасе тот же, что на полу внутри, поэтому граница между домом и двором почти не читается. Оливы — старые, пересаженные с участка в трёх километрах.">
+      <img src="42f7aa1b-6ef0-4f06-aa07-8e6440434db0.webp"
+           alt="Белый дом у моря с длинным бассейном, оливами и травертиновой террасой"
+           width="1152" height="864" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Дом у моря</span><span>310 м²</span></span>
+      <span class="shot__name">Оливковый двор</span>
+    </button>
+
+    <div class="big big--3">
+      <span class="big__n">310</span>
+      <p>м² — самый<br>большой дом</p>
+    </div>
+
+    <button class="shot shot--5" type="button"
+            data-img="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp"
+            data-alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево"
+            data-name="Патио" data-spec="172 м² · Калининградская обл. · 8 месяцев"
+            data-text="Ветер с залива не даёт сидеть снаружи девять месяцев в году. Поэтому дом замкнут в каре вокруг двора: во дворе тихо при любом ветре, и все комнаты смотрят в него.">
+      <img src="251d21a3-5f0c-4cb2-8467-66113b19f0b1.webp"
+           alt="Внутренний двор дома: бежевая штукатурка, гравий и одинокое дерево"
+           width="1152" height="864" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Дом с патио</span><span>172 м²</span></span>
+      <span class="shot__name">Патио</span>
+    </button>
+
+    <button class="shot shot--6" type="button"
+            data-img="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
+            data-alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой"
+            data-name="Два проёма" data-spec="118 м² · Тверская обл. · 5 месяцев"
+            data-text="Самый маленький и самый быстрый наш дом. Вся сложность ушла в два глубоких проёма: они держат тень летом, пускают низкое солнце зимой и заменяют собой весь декор.">
+      <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
+           alt="Белый фасад с двумя глубокими проёмами и вертикальной деревянной обшивкой"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="shot__meta"><span>Компактный дом</span><span>118 м²</span></span>
+      <span class="shot__name">Два проёма</span>
+    </button>
+  </div>
 </section>
 
 <!-- ========== 5. ИНТЕРЬЕР ========== -->
 <section class="inside" id="inside" aria-labelledby="inside-title">
-  <div class="inside__head">
-    <h2 class="inside__title" id="inside-title">Что внутри</h2>
-    <p class="inside__intro">
-      Дом приезжает с отделкой, светом и мебелью. Выберите комнату
-      и посмотрите, из чего она собрана.
-    </p>
+  <div class="head">
+    <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+    <h2 id="inside-title">Что внутри</h2>
   </div>
 
   <div class="inside__stage">
     <div class="inside__frame" aria-hidden="true"></div>
-
     <div class="inside__slides">
-      <figure class="inside__slide is-on" data-room="living">
+      <figure class="slide is-on" data-room="living">
         <img src="83657b78-e860-4af3-9a89-4c7ab2702e9e.webp"
              alt="Гостиная с серым угловым диваном, дубовым столом и панорамными окнами"
              width="1280" height="720" loading="lazy" decoding="async">
       </figure>
-      <figure class="inside__slide" data-room="kitchen">
+      <figure class="slide" data-room="kitchen">
         <img src="a652e384-973f-4592-9b7b-c6516df0fa83.webp"
              alt="Кухня с бежевыми фасадами без ручек и каменным островом"
              width="1280" height="720" loading="lazy" decoding="async">
       </figure>
-      <figure class="inside__slide" data-room="bedroom">
+      <figure class="slide" data-room="bedroom">
         <img src="23b6651f-6d19-413b-b5c6-2e1a0f03b0da.webp"
              alt="Спальня с дубовым изголовьем и белым бельём"
              width="1280" height="720" loading="lazy" decoding="async">
       </figure>
-      <figure class="inside__slide" data-room="terrace">
+      <figure class="slide" data-room="terrace">
         <img src="8beabe76-f484-43d4-b7e7-f4a444f71069.webp"
              alt="Терраса на закате с тиковыми диванами и бетонным столом"
              width="1280" height="720" loading="lazy" decoding="async">
@@ -323,92 +307,41 @@
     </div>
 
     <div class="pin" data-room="living" style="--x:23%;--y:64%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Диван</b>рогожка, каркас из дуба</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Диван</b>рогожка, каркас из дуба</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="living" style="--x:53%;--y:75%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Стол</b>дуб, цельная столешница</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Стол</b>дуб, цельная столешница</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="kitchen" style="--x:36%;--y:73%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Остров</b>кварцит, 40 мм</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Остров</b>кварцит, 40 мм</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="kitchen" style="--x:78%;--y:52%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Техника</b>встроенная, скрытая за фасадом</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Техника</b>встроенная, за фасадом</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="bedroom" style="--x:88%;--y:66%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Изголовье</b>массив дуба, наш цех</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Изголовье</b>массив дуба, наш цех</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="bedroom" style="--x:46%;--y:84%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Подиум</b>дуб, парит над полом</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Подиум</b>дуб, парит над полом</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="terrace" style="--x:12%;--y:64%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Тик</b>без покрытия, седеет за два сезона</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Тик</b>без покрытия, седеет за два сезона</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
     <div class="pin" data-room="terrace" style="--x:49%;--y:65%">
-      <button class="pin__btn" type="button" aria-expanded="false">
-        <span class="pin__mark" aria-hidden="true">
-          <svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg>
-        </span>
-        <span class="pin__text"><b>Стол</b>литой бетон, 180 кг</span>
-      </button>
-      <span class="pin__stem" aria-hidden="true"></span>
-      <span class="pin__dot" aria-hidden="true"></span>
+      <span class="pin__pill"><span class="pin__dotmark" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12L12 4M12 4H6M12 4v6"/></svg></span><span class="pin__t"><b>Стол</b>литой бетон, 180 кг</span></span>
+      <span class="pin__stem" aria-hidden="true"></span><span class="pin__dot" aria-hidden="true"></span>
     </div>
   </div>
 
   <div class="rooms" role="tablist" aria-label="Комнаты">
-    <span class="rooms__goo" aria-hidden="true">
-      <span class="rooms__blob"></span>
-      <span class="rooms__drop"></span>
-    </span>
+    <span class="rooms__goo" aria-hidden="true"><span class="rooms__blob"></span><span class="rooms__drop"></span></span>
     <button class="rooms__tab is-on" type="button" role="tab" aria-selected="true"  data-room="living">Гостиная</button>
     <button class="rooms__tab"       type="button" role="tab" aria-selected="false" data-room="kitchen">Кухня</button>
     <button class="rooms__tab"       type="button" role="tab" aria-selected="false" data-room="bedroom">Спальня</button>
@@ -418,132 +351,127 @@
 
 <!-- ========== 6. СТУДИЯ ========== -->
 <section class="team" id="team" aria-labelledby="team-title">
-  <div class="team__head">
-    <h2 class="team__title" id="team-title">Девять человек,<br>из них шесть — на этой странице</h2>
-    <p class="team__intro">
-      Дом ведёт один архитектор от первой встречи до передачи ключей.
-      Он же приезжает на сборку.
-    </p>
+  <svg class="team__ghost" viewBox="0 0 24 24" aria-hidden="true"><use href="#mark"/></svg>
+
+  <div class="head">
+    <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+    <h2 id="team-title">Основной состав<span class="step">студии ГРАНЬ.</span></h2>
+    <span class="seal seal--static" aria-hidden="true">
+      <svg class="seal__ring" viewBox="0 0 132 132">
+        <defs><path id="teamArc" fill="none" d="M66,66 m-47,0 a47,47 0 1,1 94,0 a47,47 0 1,1 -94,0"/></defs>
+        <text><textPath href="#teamArc" startOffset="0">Студия · Студия · Студия ·</textPath></text>
+      </svg>
+      <svg class="seal__core"><use href="#mark"/></svg>
+    </span>
   </div>
 
-  <ul class="team__grid">
-    <li class="team__one team__one--lead">
-      <figure>
-        <img src="98030524-5a36-4abb-b6aa-a60a4db1c145.webp"
-             alt="Портрет Артёма Гурского" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Артём Гурский</span><span class="team__role">Главный архитектор, основатель</span></figcaption>
-      </figure>
+  <p class="team__say">Дом ведёт один архитектор от первой встречи
+     до передачи ключей. Он же приезжает на сборку
+     и отвечает за неё лично.</p>
+
+  <ol class="team__row">
+    <li class="who who--lead">
+      <span class="who__n">01</span>
+      <img src="98030524-5a36-4abb-b6aa-a60a4db1c145.webp" alt="Портрет Артёма Гурского"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Артём<br>Гурский</span>
+      <span class="who__role">главный архитектор</span>
     </li>
-    <li class="team__one">
-      <figure>
-        <img src="7a1011f7-d33b-4bc1-82e2-7b3e10a57603.webp"
-             alt="Портрет Павла Дорна" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Павел Дорн</span><span class="team__role">Конструктор</span></figcaption>
-      </figure>
+    <li class="who">
+      <span class="who__n">02</span>
+      <img src="7a1011f7-d33b-4bc1-82e2-7b3e10a57603.webp" alt="Портрет Павла Дорна"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Павел<br>Дорн</span>
     </li>
-    <li class="team__one">
-      <figure>
-        <img src="4c51d430-c0f2-46e1-a614-63fb3851f898.webp"
-             alt="Портрет Ники Соболевой" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Ника Соболева</span><span class="team__role">Руководитель проектов</span></figcaption>
-      </figure>
+    <li class="who">
+      <span class="who__n">03</span>
+      <img src="4c51d430-c0f2-46e1-a614-63fb3851f898.webp" alt="Портрет Ники Соболевой"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Ника<br>Соболева</span>
     </li>
-    <li class="team__one">
-      <figure>
-        <img src="f0ee0b9c-a02c-42c9-aad2-5861e328c0b0.webp"
-             alt="Портрет Лизы Ратмановой" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Лиза Ратманова</span><span class="team__role">Интерьеры и комплектация</span></figcaption>
-      </figure>
+    <li class="who">
+      <span class="who__n">04</span>
+      <img src="f0ee0b9c-a02c-42c9-aad2-5861e328c0b0.webp" alt="Портрет Лизы Ратмановой"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Лиза<br>Ратманова</span>
     </li>
-    <li class="team__one">
-      <figure>
-        <img src="24181ae5-57dd-47b8-a635-36ea2a5788fe.webp"
-             alt="Портрет Марка Ивашова" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Марк Ивашов</span><span class="team__role">Начальник производства</span></figcaption>
-      </figure>
+    <li class="who">
+      <span class="who__n">05</span>
+      <img src="24181ae5-57dd-47b8-a635-36ea2a5788fe.webp" alt="Портрет Марка Ивашова"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Марк<br>Ивашов</span>
     </li>
-    <li class="team__one">
-      <figure>
-        <img src="82d15e3d-9ccb-477f-8d09-98e1638dfe9e.webp"
-             alt="Портрет Жени Крайновой" width="832" height="1248" loading="lazy" decoding="async">
-        <figcaption><span class="team__name">Женя Крайнова</span><span class="team__role">Снабжение и логистика</span></figcaption>
-      </figure>
+    <li class="who">
+      <span class="who__n">06</span>
+      <img src="82d15e3d-9ccb-477f-8d09-98e1638dfe9e.webp" alt="Портрет Жени Крайновой"
+           width="832" height="1248" loading="lazy" decoding="async">
+      <span class="who__name">Женя<br>Крайнова</span>
     </li>
-  </ul>
+  </ol>
 </section>
 
 <!-- ========== 7. КАК СТРОИМ ========== -->
 <section class="steps" id="process" aria-labelledby="steps-title">
-  <h2 class="steps__title" id="steps-title">Как строим</h2>
+  <div class="head">
+    <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+    <h2 id="steps-title">Как строим</h2>
+  </div>
 
   <ol class="steps__list">
-    <li class="steps__step">
-      <span class="steps__num">01</span>
+    <li>
+      <span class="steps__n">01</span>
       <h3>Участок и разговор</h3>
-      <p>
-        Приезжаем на участок, смотрим въезд, грунт, соседей и то, куда уходит
-        солнце. Дальше — три часа разговора о том, как вы живёте.
-        Считаем бюджет до подписания, не после.
-      </p>
-      <figure class="steps__shot">
-        <img src="655bbabe-53db-4d47-9474-9f20c882a5c5.webp"
+      <p>Приезжаем на участок, смотрим въезд, грунт, соседей и то, куда
+         уходит солнце. Дальше — три часа разговора о том, как вы живёте.
+         Бюджет считаем до подписания, не после.</p>
+      <figure><img src="655bbabe-53db-4d47-9474-9f20c882a5c5.webp"
              alt="Чертежи, бумажный макет дома, линейка и образцы дерева и камня на подоконнике"
-             width="1280" height="720" loading="lazy" decoding="async">
-      </figure>
+             width="1280" height="720" loading="lazy" decoding="async"></figure>
     </li>
-    <li class="steps__step">
-      <span class="steps__num">02</span>
+    <li>
+      <span class="steps__n">02</span>
       <h3>Проект</h3>
-      <p>
-        Объём, планировки, узлы, инженерия. Восемь недель и три встречи,
-        на которых можно менять всё. После четвёртой — уже нельзя, и это
-        честнее, чем менять на стройке.
-      </p>
-      <figure class="steps__shot">
-        <img src="e05cc2de-54f4-4d2b-ac4a-4afc1500d2d2.webp"
+      <p>Объём, планировки, узлы, инженерия. Восемь недель и три встречи,
+         на которых можно менять всё. После четвёртой — уже нельзя,
+         и это честнее, чем менять на стройке.</p>
+      <figure><img src="e05cc2de-54f4-4d2b-ac4a-4afc1500d2d2.webp"
              alt="Архитектор разбирает чертёж за столом рядом с белыми макетами домов"
-             width="1152" height="864" loading="lazy" decoding="async">
-      </figure>
+             width="1152" height="864" loading="lazy" decoding="async"></figure>
     </li>
-    <li class="steps__step">
-      <span class="steps__num">03</span>
+    <li>
+      <span class="steps__n">03</span>
       <h3>Производство</h3>
-      <p>
-        Стеновые панели, балки, окна и лестницы делаем в цеху под Выборгом.
-        В цеху сухо и +18, поэтому дерево ведёт себя предсказуемо,
-        в отличие от стройплощадки в ноябре.
-      </p>
-      <figure class="steps__shot">
-        <img src="3239ee6d-171e-44fc-b7ec-80def38d3c31.webp"
+      <p>Стеновые панели, балки, окна и лестницы делаем в цеху под Выборгом.
+         В цеху сухо и +18, поэтому дерево ведёт себя предсказуемо,
+         в отличие от стройплощадки в ноябре.</p>
+      <figure><img src="3239ee6d-171e-44fc-b7ec-80def38d3c31.webp"
              alt="Стык бетонного блока и тёмной деревянной обшивки крупным планом"
-             width="832" height="1248" loading="lazy" decoding="async">
-      </figure>
+             width="832" height="1248" loading="lazy" decoding="async"></figure>
     </li>
-    <li class="steps__step">
-      <span class="steps__num">04</span>
+    <li>
+      <span class="steps__n">04</span>
       <h3>Сборка и ключи</h3>
-      <p>
-        Коробку собираем за 11 дней, дальше отделка и инженерия.
-        Передаём дом с мебелью, светом и посудомойкой. Заезжать можно
-        в тот же вечер.
-      </p>
-      <figure class="steps__shot">
-        <img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
+      <p>Коробку собираем за 11 дней, дальше отделка и инженерия.
+         Передаём дом с мебелью, светом и посудомойкой. Заезжать можно
+         в тот же вечер.</p>
+      <figure><img src="376568d8-f988-4f9f-9f6a-bfb7e225c34b.webp"
              alt="Собранный дом: белый фасад с двумя глубокими проёмами"
-             width="832" height="1248" loading="lazy" decoding="async">
-      </figure>
+             width="832" height="1248" loading="lazy" decoding="async"></figure>
     </li>
   </ol>
 </section>
 
 <!-- ========== 8. КОНТАКТ ========== -->
 <section class="talk" id="contact" aria-labelledby="talk-title">
-  <div class="talk__inner">
-    <h2 class="talk__title" id="talk-title">Покажите участок —<br>скажем, что на нём встанет</h2>
-    <p class="talk__lede">
-      Пришлите кадастровый номер или просто точку на карте. В ответ — разбор
-      участка и вилка бюджета. Бесплатно и без встречи, если встреча пока не нужна.
-    </p>
+  <div class="talk__in">
+    <div class="head head--dark">
+      <svg class="ast" aria-hidden="true"><use href="#ast"/></svg>
+      <h2 id="talk-title">Покажите участок —<span class="step">скажем, что на нём встанет.</span></h2>
+    </div>
+
+    <p class="talk__say">Пришлите кадастровый номер или просто точку на карте.
+       В ответ — разбор участка и вилка бюджета. Бесплатно
+       и без встречи, если встреча пока не нужна.</p>
 
     <form class="talk__form" id="lead">
       <div class="field">
@@ -558,13 +486,29 @@
         <label for="f-plot">Участок</label>
         <input id="f-plot" name="plot" type="text" placeholder="Кадастровый номер, адрес или ссылка на карту">
       </div>
-      <button class="talk__send" type="submit">Отправить участок</button>
+      <button class="send" type="submit">Отправить участок</button>
       <p class="talk__status" id="lead-status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
 
 </main>
+
+<footer class="foot">
+  <div class="foot__rows">
+    <div><span class="foot__h">Студия</span><p>Санкт-Петербург<br>наб. Обводного канала, 74</p></div>
+    <div><span class="foot__h">Производство</span><p>Ленинградская обл.<br>Выборгский район</p></div>
+    <div><span class="foot__h">Связь</span><p><a href="tel:+78000000000">7 800 000 15 15</a><br><a href="mailto:dom@gran.studio">dom@gran.studio</a></p></div>
+    <div><span class="foot__h">Ещё</span><p><a href="#arch">Проекты</a><br><a href="#team">Студия</a></p></div>
+  </div>
+
+  <div class="foot__mark" aria-hidden="true">ГРАНЬ</div>
+
+  <div class="foot__base">
+    <span>© 2011–2026 ГРАНЬ</span>
+    <span>Портфолио-проект. Компания вымышленная.</span>
+  </div>
+</footer>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
   <button class="sheet__x" type="button" aria-label="Закрыть">
@@ -579,40 +523,6 @@
     <a class="sheet__cta" href="#contact">Хочу такой же</a>
   </div>
 </dialog>
-
-<footer class="foot">
-  <div class="foot__rows">
-    <div class="foot__col">
-      <span class="foot__h">Студия</span>
-      <p>Санкт-Петербург, наб. Обводного канала, 74<br>Пн–Пт, 10:00–19:00</p>
-    </div>
-    <div class="foot__col">
-      <span class="foot__h">Производство</span>
-      <p>Ленинградская обл., Выборгский р-н<br>Приезд по договорённости</p>
-    </div>
-    <div class="foot__col">
-      <span class="foot__h">Связь</span>
-      <p>
-        <a href="tel:+78000000000">+7 800 000 00 00</a><br>
-        <a href="mailto:dom@gran.studio">dom@gran.studio</a>
-      </p>
-    </div>
-    <div class="foot__col">
-      <span class="foot__h">Ещё</span>
-      <p>
-        <a href="#projects">Проекты</a><br>
-        <a href="#team">Студия</a>
-      </p>
-    </div>
-  </div>
-
-  <div class="foot__mark" aria-hidden="true">ГРАНЬ</div>
-
-  <div class="foot__base">
-    <span>© 2011–2026 ГРАНЬ</span>
-    <span>Портфолио-проект. Компания вымышленная.</span>
-  </div>
-</footer>
 
 <script src="main.js"></script>
 </body>
