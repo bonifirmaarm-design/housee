@@ -311,74 +311,95 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .cell dt { margin-top: 12px; font-size: 12px; color: var(--stone); }
 
 /* ============================================================
-   4. НАША АРХИТЕКТУРА — разбросанная сетка с крупными числами
+   4. НАША АРХИТЕКТУРА
+   Механика референса: фото небольшое, число стоит вплотную справа
+   и выравнено нижней линией ровно по нижнему краю снимка, подпись
+   идёт под фото в ширину фото. Колонки делит вертикальная линейка.
    ============================================================ */
-.arch { position: relative; padding: 0 var(--gut) clamp(60px, 10vh, 130px); }
+.arch { padding: 0 var(--gut) clamp(60px, 10vh, 130px); }
 
 .arch__grid {
   position: relative;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: clamp(20px, 3vh, 46px) clamp(12px, 1.8vw, 26px);
-  margin-top: clamp(30px, 5vh, 64px);
+  column-gap: clamp(12px, 1.8vw, 26px);
+  row-gap: clamp(46px, 9vh, 130px);
   align-items: start;
 }
-/* вертикальная линейка посередине, как в референсе */
 .arch__grid::before {
   content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
   width: 1px; background: var(--hair);
 }
 
-.shot { display: block; width: 100%; padding: 0; text-align: left; }
+.arch__head { grid-column: 1 / 7; grid-row: 1; }
+
+/* пластина: фото + число в одной строке, подпись — во второй под фото */
+.plate {
+  display: grid;
+  grid-template-columns: var(--ph, 60%) minmax(0, auto);
+  column-gap: clamp(14px, 1.8vw, 30px);
+}
+.plate .shot { grid-column: 1; grid-row: 1; display: block; width: 100%; padding: 0; }
+.plate .num  { grid-column: 2; grid-row: 1; align-self: end; }
+.plate .cap  { grid-column: 1; grid-row: 2; margin-top: 12px; }
+
 .shot img { width: 100%; object-fit: cover; transition: transform var(--t-slow); }
 .shot:hover img { transform: scale(1.025); }
-.shot__meta {
+
+.cap { display: grid; gap: 7px; }
+.cap__meta {
   display: flex; justify-content: space-between; gap: 12px;
-  margin-top: 11px;
-  font-size: 11px; font-weight: 500; letter-spacing: .1em;
+  font-size: 11px; font-weight: 500; letter-spacing: .09em;
   text-transform: uppercase; color: var(--faint);
 }
-.shot__name { display: block; margin-top: 7px; font-size: 14px; }
-.shot:hover .shot__name { text-decoration: underline; text-underline-offset: 3px; }
+.cap__name { font-size: 15px; }
+.plate:hover .cap__name { text-decoration: underline; text-underline-offset: 3px; }
 
-.big { align-self: center; }
-.big__n {
+.num { font-variant-numeric: tabular-nums; }
+.num span {
   display: block;
   font-family: 'Onest', system-ui, sans-serif;
-  font-size: clamp(3.2rem, 8.4vw, 8.6rem);
-  font-weight: 400; line-height: .85; letter-spacing: -.045em;
-  color: var(--ghost); font-variant-numeric: tabular-nums;
+  font-weight: 400; line-height: .82; letter-spacing: -.045em;
+  color: var(--ink);
 }
-.big p {
+.num p {
   margin-top: 14px;
   font-size: 11.5px; font-weight: 500; letter-spacing: .07em;
-  text-transform: uppercase; line-height: 1.6; color: var(--ink);
+  text-transform: uppercase; line-height: 1.55; color: var(--ink);
+  white-space: nowrap;
 }
+.num--grey span { color: var(--ghost); }
+.num--xl span { font-size: clamp(2.6rem, 6.2vw, 6.6rem); }
+.num--lg span { font-size: clamp(2.2rem, 4.9vw, 5.2rem); }
+.num--md span { font-size: clamp(1.7rem, 3.4vw, 3.6rem); }
 
 .arch__say {
-  align-self: center;
   font-family: 'Onest', system-ui, sans-serif;
-  font-size: clamp(1.3rem, 3vw, 2.7rem);
+  font-size: clamp(1.3rem, 2.9vw, 2.6rem);
   font-weight: 500; line-height: 1.12; letter-spacing: -.02em;
   text-transform: uppercase;
 }
 
-.shot--1 { grid-column: 6 / 12; }
-.shot--1 img { aspect-ratio: 4 / 3; }
-.big--1   { grid-column: 1 / 5; }
-.shot--2  { grid-column: 8 / 13; }
-.shot--2 img { aspect-ratio: 16 / 10; }
-.shot--3  { grid-column: 1 / 6; }
-.shot--3 img { aspect-ratio: 16 / 11; }
-.big--2   { grid-column: 7 / 11; }
-.arch__say { grid-column: 7 / 13; }
-.shot--4  { grid-column: 1 / 7; }
-.shot--4 img { aspect-ratio: 16 / 9; }
-.big--3   { grid-column: 8 / 12; }
-.shot--5  { grid-column: 2 / 6; }
-.shot--5 img { aspect-ratio: 4 / 3; }
-.shot--6  { grid-column: 8 / 11; }
-.shot--6 img { aspect-ratio: 3 / 4; }
+/* раскладка: фото стоят с разным смещением, как в референсе */
+.plate--a  { grid-column: 7 / 13; grid-row: 1; }
+.plate--a .shot img { aspect-ratio: 4 / 5; }
+
+.plate--b  { grid-column: 2 / 8;  grid-row: 2; }
+.plate--b .shot img { aspect-ratio: 8 / 7; }
+.arch__say { grid-column: 8 / 13; grid-row: 2; align-self: center; }
+
+/* доля под снимок задана в разметке (--ph): он упирается в линейку, но не переходит её */
+.plate--c  { grid-column: 4 / 10; grid-row: 3; }
+.plate--c .shot img { aspect-ratio: 3 / 2; }
+
+.plate--d  { grid-column: 10 / 13; grid-row: 3; }
+.plate--d .shot img { aspect-ratio: 16 / 11; }
+
+.plate--e  { grid-column: 1 / 5;  grid-row: 4; }
+.plate--e .shot img { aspect-ratio: 4 / 3; }
+
+.plate--f  { grid-column: 8 / 11; grid-row: 4; }
+.plate--f .shot img { aspect-ratio: 3 / 4; }
 
 /* ============================================================
    5. ИНТЕРЬЕР
@@ -701,13 +722,16 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   .cell:nth-child(3) { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); }
   .cell:nth-child(4) { border-top: 1px solid var(--hair); }
 
-  .arch__grid { grid-template-columns: repeat(6, 1fr); }
+  .arch__grid { grid-template-columns: repeat(6, 1fr); row-gap: clamp(34px, 6vh, 64px); }
   .arch__grid::before { display: none; }
-  .shot--1, .shot--2, .shot--3, .shot--4, .shot--5, .shot--6 { grid-column: 1 / 7; }
-  .shot--1 img, .shot--2 img, .shot--3 img, .shot--4 img, .shot--5 img { aspect-ratio: 4 / 3; }
-  .shot--6 img { aspect-ratio: 3 / 4; }
-  .big--1, .big--2, .big--3 { grid-column: 1 / 7; }
-  .arch__say { grid-column: 1 / 7; }
+  .arch__head { grid-column: 1 / 7; grid-row: 1; }
+  .plate--a, .plate--b, .plate--c, .plate--d, .plate--e, .plate--f { grid-column: 1 / 7; }
+  .plate--a { grid-row: 2; } .plate--b { grid-row: 3; }
+  .plate--c { grid-row: 5; } .plate--d { grid-row: 6; }
+  .plate--e { grid-row: 7; } .plate--f { grid-row: 8; }
+  .arch__say { grid-column: 1 / 7; grid-row: 4; }
+  .plate { grid-template-columns: var(--ph, 60%) minmax(0, auto); }
+  .num p { white-space: normal; }
 
   .inside__stage { aspect-ratio: 4 / 3; }
 
