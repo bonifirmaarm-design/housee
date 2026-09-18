@@ -16,9 +16,12 @@ src = (ROOT / 'index.html').read_text(encoding='utf-8')
 body = src[src.index('<body>') + len('<body>'):src.index('</body>')].strip()
 body = body.replace('<script src="main.js"></script>', '').strip()
 
-css = "\n".join((ROOT / p).read_text(encoding='utf-8') for p in (
-    'assets/fonts/unbounded.css', 'assets/fonts/onest.css',
-    'assets/fonts/golos.css', 'styles.css'))
+# список стилей берём из самой страницы, иначе он разъезжается при смене шрифтов
+sheets = re.findall(r'<link rel="stylesheet" href="([^"]+)"', src)
+missing = [s for s in sheets if not (ROOT / s).exists()]
+if missing:
+    raise SystemExit('нет файлов стилей: ' + ', '.join(missing))
+css = "\n".join((ROOT / s).read_text(encoding='utf-8') for s in sheets)
 js = (ROOT / 'main.js').read_text(encoding='utf-8')
 
 out.parent.mkdir(parents=True, exist_ok=True)
