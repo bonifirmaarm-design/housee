@@ -33,20 +33,25 @@
     var live   = tabs[0];
     var timer  = null;
 
+    // высоту задаём явно: на узком экране ряд переносится, и «капля»
+    // ростом с весь блок вкладок растягивалась на обе строки
     function seat(tab, glide) {
       if (!blob || !tab) return;
-      var w = tab.offsetWidth, x = tab.offsetLeft, y = tab.offsetTop;
+      var w = tab.offsetWidth, h = tab.offsetHeight, x = tab.offsetLeft, y = tab.offsetTop;
       if (glide && !still.matches && drop) {
         drop.style.width = blob.style.width;
+        drop.style.height = blob.style.height;
         drop.style.transform = blob.style.transform;
         drop.classList.add('is-out');
         window.setTimeout(function () {
           drop.style.width = w + 'px';
+          drop.style.height = h + 'px';
           drop.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
         }, 20);
         window.setTimeout(function () { drop.classList.remove('is-out'); }, 470);
       }
       blob.style.width = w + 'px';
+      blob.style.height = h + 'px';
       blob.style.transform = 'translate3d(' + x + 'px,' + y + 'px,0)';
     }
 

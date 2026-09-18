@@ -17,8 +17,8 @@
   --gut: clamp(20px, 4.2vw, 68px);
   --band: clamp(76px, 12vh, 168px);
 
-  --say: 'Spectral', Georgia, serif;   /* высказывания */
-  --ui:  'Commissioner', system-ui, sans-serif;  /* интерфейс и текст */
+  --ui:  'Commissioner', system-ui, sans-serif;
+  --say: var(--ui);   /* высказывания и интерфейс — одно семейство */
 
   --t-fast: 180ms cubic-bezier(.2,.7,.3,1);
   --t-mid:  460ms cubic-bezier(.16,.84,.28,1);
@@ -75,7 +75,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   font-family: var(--say);
   font-family: var(--say);
   font-size: clamp(1.5rem, 3.2vw, 2.7rem);
-  font-weight: 300; line-height: 1.16; letter-spacing: -.012em;
+  font-weight: 400; line-height: 1.12; letter-spacing: -.028em;
   text-wrap: balance;
 }
 .head p { font-size: 15px; color: var(--stone); max-width: 46ch; justify-self: end; }
@@ -106,8 +106,11 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   position: absolute; inset: 0; z-index: -2;
   width: 100%; height: 100%; object-fit: cover;
   filter: brightness(.74) contrast(1.04);
-  transform: scale(1.06); transition: transform 2400ms cubic-bezier(.16,.84,.28,1);
+  transition: transform 2400ms cubic-bezier(.16,.84,.28,1);
 }
+/* приближение — исходная точка тихого выхода, и заводит его скрипт.
+   Без скрипта снимок просто стоит на месте, а не висит увеличенным навсегда. */
+.js .lead__ph { transform: scale(1.06); }
 .is-lit .lead__ph { transform: scale(1); }
 .lead__veil {
   position: absolute; inset: 0; z-index: -1;
@@ -142,7 +145,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   font-family: var(--say);
   font-family: var(--say);
   font-size: clamp(2.1rem, 5.4vw, 4.9rem);
-  font-weight: 300; line-height: 1.1; letter-spacing: -.014em;
+  font-weight: 400; line-height: 1.06; letter-spacing: -.032em;
   max-width: 17ch;
 }
 .lead__side { display: grid; gap: 18px; justify-items: end; text-align: right; }
@@ -179,8 +182,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   font-family: var(--say);
   font-family: var(--say);
   font-size: clamp(1.7rem, 4vw, 3.4rem);
-  font-weight: 300; line-height: 1.16; letter-spacing: -.012em;
-  max-width: 16ch; text-wrap: balance;
+  font-weight: 300; line-height: 1.1; letter-spacing: -.03em;
+  max-width: 15ch; text-wrap: balance;
 }
 .say__c { display: grid; gap: 20px; padding-top: 8px; }
 .say__c p { font-size: 16px; color: var(--stone); max-width: 52ch; }
@@ -212,7 +215,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .nums dt {
   font-family: var(--say);
   font-size: clamp(1.9rem, 3.8vw, 3rem);
-  font-weight: 300; line-height: 1; letter-spacing: -.012em;
+  font-weight: 300; line-height: 1; letter-spacing: -.035em;
   font-variant-numeric: tabular-nums;
 }
 .nums dd { margin: 10px 0 0; font-size: 13px; color: var(--stone); }
@@ -241,7 +244,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 }
 .card--all a:hover { background: var(--paper); border-color: var(--stone); }
 .card__all { display: grid; gap: 10px; }
-.card__all b { font-family: var(--say); font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 300; letter-spacing: -.01em; }
+.card__all b { font-size: clamp(1.15rem, 1.9vw, 1.6rem); font-weight: 400; letter-spacing: -.024em; }
 .card__all span { font-size: 14px; color: var(--stone); max-width: 34ch; }
 .card__go { display: inline-flex; align-items: center; gap: 9px; font-size: 13.5px; font-weight: 500; }
 .card__go svg { width: 13px; height: 13px; transition: transform var(--t-mid); }
@@ -283,7 +286,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   font-family: var(--say);
   font-family: var(--say);
   font-size: clamp(1.4rem, 2.8vw, 2.3rem);
-  font-weight: 300; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance;
+  font-weight: 300; line-height: 1.16; letter-spacing: -.026em; text-wrap: balance;
 }
 .dark__t p { font-size: 15px; color: #A9A69E; max-width: 46ch; }
 
@@ -305,20 +308,28 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   border-radius: clamp(14px, 2vw, 26px); pointer-events: none;
 }
 
+/* Точка стоит ровно на предмете: блок нулевой ширины, а каждый элемент
+   сдвигается от него сам через `translate`. Пилюля у края кадра прижимается
+   к точке (data-side) — иначе на планшете её срезает краем снимка.
+   Сдвиг именно `translate`, а не `transform`: hover у пилюли занимает
+   transform, и одно перебивало бы другое. */
 .pin {
   position: absolute; z-index: 4; left: var(--x); top: var(--y);
-  transform: translate(-50%, calc(-100% + 4px));
-  display: grid; justify-items: center;
+  width: 0; transform: translateY(calc(-100% + 4px));
+  display: grid; justify-items: start;
   opacity: 0; visibility: hidden;
   transition: opacity var(--t-mid), visibility var(--t-mid);
 }
+.pin__b, .pin__s, .pin__d { translate: -50% 0; }
+.pin[data-side="left"]  .pin__b { translate: 0 0; }
+.pin[data-side="right"] .pin__b { translate: -100% 0; }
 .pin.is-on { opacity: 1; visibility: visible; }
 .pin__b {
   display: flex; align-items: center; gap: 10px;
   padding: 7px 16px 7px 7px; border-radius: 999px;
   background: rgba(255,255,255,.96);
   box-shadow: 0 10px 28px rgba(0,0,0,.22);
-  text-align: left; max-width: min(300px, 62vw); color: var(--ink);
+  text-align: left; width: max-content; max-width: min(300px, 62vw); color: var(--ink);
   transition: transform var(--t-fast), border-radius var(--t-mid);
 }
 .pin__b:hover { transform: translateY(-2px); }
@@ -360,8 +371,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .rooms { position: relative; display: flex; flex-wrap: wrap; gap: 6px; width: fit-content; }
 .rooms__goo { position: absolute; inset: 0; z-index: 0; filter: url(#gooey); pointer-events: none; }
 .rooms__blob, .rooms__drop { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); border-radius: 999px; will-change: transform, width; }
-.rooms__blob { transition: transform var(--t-mid), width var(--t-mid); }
-.rooms__drop { opacity: 0; transition: transform var(--t-mid), width var(--t-mid), opacity 260ms linear 120ms; }
+.rooms__blob { transition: transform var(--t-mid), width var(--t-mid), height var(--t-mid); }
+.rooms__drop { opacity: 0; transition: transform var(--t-mid), width var(--t-mid), height var(--t-mid), opacity 260ms linear 120ms; }
 .rooms__drop.is-out { opacity: 1; }
 .rooms__t {
   position: relative; z-index: 1; padding: 11px 22px; border-radius: 999px;
@@ -414,8 +425,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   font-family: var(--say);
   font-family: var(--say);
   font-size: clamp(1.7rem, 4vw, 3.4rem);
-  font-weight: 300; line-height: 1.16; letter-spacing: -.012em;
-  max-width: 20ch; text-wrap: balance;
+  font-weight: 300; line-height: 1.1; letter-spacing: -.03em;
+  max-width: 19ch; text-wrap: balance;
 }
 .talk__p { margin-top: 22px; max-width: 52ch; font-size: 15px; color: #A9A69E; }
 
@@ -499,49 +510,118 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 /* ============================================================
    АДАПТИВ
+   Три ступени. 1080 — шапка перестраивается, сетки в две колонки.
+   900 — первый экран и тёмные блоки в одну колонку. 760 — телефон.
+   Везде, где палец, у цели не меньше 44 px по высоте.
    ============================================================ */
 @media (max-width: 1080px) {
-  .bar { grid-template-columns: auto auto; row-gap: 14px; }
-  .bar__nav { grid-column: 1 / -1; justify-self: start; flex-wrap: wrap; }
-  .bar__tel { justify-self: end; }
+  /* имя и телефон в одну строку, разделы под ними: раньше телефон
+     уезжал в середину собственной пустой строки */
+  .bar {
+    grid-template-columns: auto 1fr;
+    grid-template-areas: "brand tel" "nav nav";
+    row-gap: 2px; column-gap: 20px;
+  }
+  .bar__brand { grid-area: brand; }
+  .bar__tel   { grid-area: tel; justify-self: end; }
+  .bar__nav   { grid-area: nav; justify-self: start; flex-wrap: wrap; gap: 0 clamp(16px, 2.6vw, 30px); }
 
   .studio__row { grid-template-columns: repeat(3, 1fr); }
   .how__list { grid-template-columns: repeat(2, 1fr); row-gap: 34px; }
   .how__list li:nth-child(3) { border-left: 0; padding-left: 0; }
+
+  .pin__b { max-width: min(268px, 46vw); }
+}
+
+/* Цели под палец. Ширина — не весь критерий: планшет в альбоме бывает шире
+   1080, поэтому вторым условием идёт сам способ ввода. Подчёркивание при этом
+   остаётся у текста, а не уезжает к нижнему краю выросшей области нажатия. */
+@media (max-width: 1080px), (hover: none) {
+  .bar__brand, .bar__tel, .lead__cap { padding-block: 11px; }
+  .bar__nav a { display: inline-block; padding-block: 12px; background-position: 0 calc(100% - 12px); }
+  .foot__c p a { display: inline-block; padding-block: 10px; background-position: 0 calc(100% - 10px); }
+  .roomsrow__n a { display: inline-block; padding-block: 9px; background-position: 0 calc(100% - 9px); }
+}
+
+@media (max-width: 900px) {
+  .head { grid-template-columns: 1fr; align-items: start; }
+  .head p { justify-self: start; }
+  .roomsrow { justify-content: flex-start; }
+  .roomsrow__n { text-align: left; max-width: none; }
+
+  .lead__body { grid-template-columns: 1fr; align-items: start; gap: 26px; }
+  .lead__side { justify-items: start; text-align: left; }
+  .say { grid-template-columns: 1fr; }
+  .dark { grid-template-columns: 1fr; }
+  .dark__big img { aspect-ratio: 16 / 10; }
+  .dark__small { max-width: 440px; }
+
+  /* проекты выравниваются в ровную пару: разные пропорции в узкой сетке
+     оставляли дыру под короткой карточкой */
+  .work__list { grid-template-columns: repeat(2, 1fr); }
+  .card, .card--wide, .card--all,
+  .work__list > :nth-child(3), .work__list > :nth-child(5) { grid-column: span 1; }
+  .card--wide img { aspect-ratio: 4 / 3; }
+
+  .form { grid-template-columns: 1fr 1fr; }
+  .talk .btn { grid-column: 1 / -1; justify-self: start; }
 }
 
 @media (max-width: 760px) {
   body { font-size: 15.5px; }
-  .head { grid-template-columns: 1fr; align-items: start; }
-  .head p { justify-self: start; }
-  .lead { height: auto; min-height: 0; }
-  .lead__body { grid-template-columns: 1fr; align-items: start; gap: 24px; padding-top: clamp(80px, 22vh, 220px); }
-  .lead__side { justify-items: start; text-align: left; }
-  .lead__foot { flex-wrap: wrap; }
-  .say { grid-template-columns: 1fr; }
+
+  /* первый экран остаётся во весь экран, но может вырасти под текст */
+  .lead { height: auto; min-height: 100svh; }
+  .lead__body { padding-top: clamp(56px, 14vh, 150px); }
+  .lead__foot { flex-wrap: wrap; row-gap: 0; }
+
   .bleed img { aspect-ratio: 4 / 3; }
-  .nums { grid-template-columns: 1fr 1fr; gap: 26px clamp(16px,3vw,40px); }
+  .bleed figcaption { flex-wrap: wrap; row-gap: 2px; }
+  .nums { grid-template-columns: 1fr 1fr; gap: 26px clamp(16px, 3vw, 40px); }
+
   .work__list { grid-template-columns: 1fr; }
-  .card, .card--wide, .card--all { grid-column: 1 / -1; }
+  .card, .card--wide, .card--all,
+  .work__list > :nth-child(3), .work__list > :nth-child(5) { grid-column: 1 / -1; }
   .card img, .card--wide img { aspect-ratio: 4 / 3; }
-  .dark { grid-template-columns: 1fr; }
-  .dark__big img { aspect-ratio: 16 / 10; }
-  .stage { aspect-ratio: 4 / 3; }
-  .roomsrow { justify-content: flex-start; }
-  .roomsrow__n { text-align: left; max-width: none; }
+
+  .dark__small { max-width: none; }
+
+  /* выноски на телефоне не висят над кадром: пилюля шириной почти в экран
+     закрыла бы сам предмет. Сначала кадр, под ним — подписи списком. */
+  .stage { aspect-ratio: auto; overflow: visible; padding-bottom: 16px; }
+  .stage__frame { display: none; }
+  .stage__slides { position: relative; aspect-ratio: 4 / 3; }
+  .pin {
+    position: static; width: auto; transform: none;
+    display: none; opacity: 1; visibility: visible;
+    margin: 10px clamp(12px, 3vw, 20px) 0;
+  }
+  .pin.is-on { display: block; }
+  .pin__b { width: 100%; max-width: none; box-shadow: none; translate: none; }
+  .pin__s, .pin__d { display: none; }
+
   .studio__row { grid-template-columns: repeat(2, 1fr); }
   .how__list { grid-template-columns: 1fr; }
   .how__list li + li { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); padding-top: 26px; }
   .form { grid-template-columns: 1fr; }
   .field--w { grid-column: 1; }
-  .talk .btn { justify-self: start; }
   .foot__c { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 520px) {
-  .pin { transform: translate(-50%, calc(-100% + 4px)) scale(.86); }
-  .rooms__t { padding: 10px 16px; font-size: 12.5px; }
+  /* вкладки комнат занимают строку целиком и делят её поровну:
+     четыре разные по длине пилюли рвали ряд на лохмотья */
+  .rooms { width: 100%; }
+  .rooms__t { flex: 1 1 auto; padding: 12px 14px; font-size: 12.5px; text-align: center; }
+  .lead__side .btn { justify-content: center; }
   .foot__c { grid-template-columns: 1fr; }
+}
+
+/* телефон в альбоме: низкое окно. Кадр в карточке проекта не должен
+   съедать его целиком — под ним ещё текст, ради которого её и открыли. */
+@media (max-height: 560px) and (max-width: 860px) {
+  .sheet__img { max-height: 42vh; }
+  .sheet__b { padding-block: 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

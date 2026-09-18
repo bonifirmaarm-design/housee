@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ГРАНЬ — производство частных домов</title>
 <meta name="description" content="ГРАНЬ — производство частных домов полного цикла. Проектируем, изготавливаем и собираем сами: между чертежом и ключами нет подрядчика.">
-<link rel="stylesheet" href="assets/fonts/spectral.css">
 <link rel="stylesheet" href="assets/fonts/commissioner.css">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -236,7 +235,7 @@
       </figure>
     </div>
 
-    <div class="pin" data-room="living" style="--x:23%;--y:64%">
+    <div class="pin" data-side="left" data-room="living" style="--x:23%;--y:64%">
       <button class="pin__b" type="button" aria-expanded="false">
         <span class="pin__i" aria-hidden="true"><svg class="pin__ar"><use href="#arrow"/></svg><svg class="pin__cr"><use href="#cross"/></svg></span>
         <span class="pin__x"><b>Диван</b><span>рогожка, каркас из дуба</span><span class="pin__m">Чехлы снимаются целиком и стираются дома.</span></span>
@@ -257,14 +256,14 @@
       </button>
       <span class="pin__s" aria-hidden="true"></span><span class="pin__d" aria-hidden="true"></span>
     </div>
-    <div class="pin" data-room="kitchen" style="--x:78%;--y:52%">
+    <div class="pin" data-side="right" data-room="kitchen" style="--x:78%;--y:52%">
       <button class="pin__b" type="button" aria-expanded="false">
         <span class="pin__i" aria-hidden="true"><svg class="pin__ar"><use href="#arrow"/></svg><svg class="pin__cr"><use href="#cross"/></svg></span>
         <span class="pin__x"><b>Техника</b><span>встроенная, за фасадом</span><span class="pin__m">Ручек нет: фасады открываются нажатием.</span></span>
       </button>
       <span class="pin__s" aria-hidden="true"></span><span class="pin__d" aria-hidden="true"></span>
     </div>
-    <div class="pin" data-room="bedroom" style="--x:88%;--y:66%">
+    <div class="pin" data-side="right" data-room="bedroom" style="--x:88%;--y:66%">
       <button class="pin__b" type="button" aria-expanded="false">
         <span class="pin__i" aria-hidden="true"><svg class="pin__ar"><use href="#arrow"/></svg><svg class="pin__cr"><use href="#cross"/></svg></span>
         <span class="pin__x"><b>Изголовье</b><span>массив дуба, наш цех</span><span class="pin__m">Собирается на шкантах, без единого видимого крепежа.</span></span>
@@ -278,7 +277,7 @@
       </button>
       <span class="pin__s" aria-hidden="true"></span><span class="pin__d" aria-hidden="true"></span>
     </div>
-    <div class="pin" data-room="terrace" style="--x:12%;--y:64%">
+    <div class="pin" data-side="left" data-room="terrace" style="--x:12%;--y:64%">
       <button class="pin__b" type="button" aria-expanded="false">
         <span class="pin__i" aria-hidden="true"><svg class="pin__ar"><use href="#arrow"/></svg><svg class="pin__cr"><use href="#cross"/></svg></span>
         <span class="pin__x"><b>Тик</b><span>без покрытия</span><span class="pin__m">Ничем не обрабатываем: серебро — это и есть финиш.</span></span>
@@ -388,7 +387,7 @@
       </div>
       <div class="field field--w">
         <label for="f-plot">Участок</label>
-        <input id="f-plot" name="plot" type="text" placeholder="Кадастровый номер, адрес или ссылка на карту">
+        <input id="f-plot" name="plot" type="text" placeholder="Кадастровый номер или точка на карте">
       </div>
       <button class="btn btn--solid" type="submit">Отправить участок</button>
       <p class="form__s" id="lead-status" role="status" aria-live="polite"></p>
