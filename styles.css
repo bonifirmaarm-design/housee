@@ -478,6 +478,76 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 }
 
 /* ============================================================
+   МЕНЮ НА ТЕЛЕФОНЕ
+   Панель опускается сверху, как штора, и приходит бумагой — той же,
+   на которой набрана вся страница. Тёмный снимок сменяется светом:
+   это единственная инверсия на сайте, и она же делает её запоминающейся.
+   Собственная верхняя строка панели повторяет знак и кнопку ровно на
+   местах шапки, поэтому шапка выглядит несдвинутой.
+   ============================================================ */
+.burger { display: none; }
+.burger__i {
+  position: relative; display: block; width: 22px; height: 15px;
+}
+.burger__i span {
+  position: absolute; left: 0; height: 1.5px; background: currentColor;
+  transition: top var(--t-fast), transform var(--t-fast), opacity var(--t-fast);
+}
+.burger__i span:nth-child(1) { top: 0; width: 22px; }
+/* средняя короче и прижата вправо — сдвиг объёмов, как у самих домов */
+.burger__i span:nth-child(2) { top: 7px; left: auto; right: 0; width: 14px; }
+.burger__i span:nth-child(3) { top: 14px; width: 22px; }
+.burger--x .burger__i span:nth-child(1) { top: 7px; transform: rotate(45deg); }
+.burger--x .burger__i span:nth-child(2) { opacity: 0; }
+.burger--x .burger__i span:nth-child(3) { top: 7px; transform: rotate(-45deg); }
+
+.menu {
+  inset: 0; width: auto; height: auto; max-width: none; max-height: none;
+  margin: 0; padding: 0; border: 0;
+  background: var(--paper); color: var(--ink);
+  overflow: auto; overscroll-behavior: contain;
+  transform: translateY(-100%); transition: transform var(--t-mid);
+}
+.menu.is-open { transform: none; }
+/* список стоит сразу под шапкой, а весь запас высоты собирается над
+   телефоном. Отцентрованный список давал два одинаковых провала и
+   разваливал панель на три несвязанные зоны. */
+.menu[open] { display: grid; grid-template-rows: auto auto 1fr; }
+.menu::backdrop { background: transparent; }
+
+.menu__bar {
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  padding: clamp(20px, 3vh, 30px) var(--gut);
+}
+
+.menu__nav { display: grid; padding: clamp(16px, 4.5vh, 48px) var(--gut) 0; }
+.menu__nav a {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 18px;
+  padding: clamp(15px, 2.2vh, 21px) 0;
+  border-top: 1px solid var(--hair);
+  transition: color var(--t-fast);
+}
+.menu__nav a:last-child { border-bottom: 1px solid var(--hair); }
+/* нажатие отзывается мгновенно, отпускание — с обычным замедлением:
+   180 мс на отклик под пальцем уже читаются как задержка */
+.menu__nav a:active, .menu__foot a:active { color: var(--stone); transition: none; }
+/* телефон берёт ту же ступень кегля, что и разделы, но вес 400: это не
+   шестой пункт, а единственное утверждение панели. Разница в полразмера
+   читалась бы как случайный сдвиг шкалы, а не как решение. */
+.menu__t, .menu__tel { font-size: clamp(1.5rem, 7.2vw, 2.05rem); line-height: 1.1; letter-spacing: -.03em; }
+.menu__t { font-weight: 300; }
+/* справа не украшение, а то, что за дверью: настоящие числа со страницы */
+.menu__k { font-size: 12.5px; color: var(--stone); white-space: nowrap; }
+
+.menu__foot {
+  display: grid; align-content: end; justify-items: start; gap: 6px;
+  padding: 0 var(--gut) clamp(26px, 6vh, 54px);
+}
+.menu__tel { font-weight: 400; font-variant-numeric: tabular-nums; }
+.menu__mail { font-size: 13.5px; color: var(--stone); }
+.menu__foot a { transition: color var(--t-fast); }
+
+/* ============================================================
    ОКНО ПРОЕКТА
    ============================================================ */
 .sheet {
@@ -570,6 +640,19 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 @media (max-width: 760px) {
   body { font-size: 15.5px; }
 
+  /* шапка сжимается до знака и бургера: пять разделов второй строкой
+     отъедали у снимка треть экрана. Телефон уходит в панель, где он
+     набран крупно — на телефоне это главное действие. Прячем только
+     при живом скрипте: без него бургер бесполезен, и пусть остаётся
+     обычный ряд ссылок. */
+  .js .bar { grid-template-columns: auto auto; grid-template-areas: "brand burger"; row-gap: 0; }
+  .js .bar__nav, .js .bar__tel { display: none; }
+  .js .burger { display: block; grid-area: burger; justify-self: end; padding: 11px 0 11px 20px; }
+
+  /* заголовок первого экрана берёт больше кегля: снимок ведёт, и текст
+     поверх него должен звучать так же уверенно, как на большом экране */
+  .lead__t { font-size: clamp(2.4rem, 9.6vw, 3.2rem); }
+
   /* первый экран остаётся во весь экран, но может вырасти под текст */
   .lead { height: auto; min-height: 100svh; }
   .lead__body { padding-top: clamp(56px, 14vh, 150px); }
@@ -619,6 +702,11 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 /* телефон в альбоме: низкое окно. Кадр в карточке проекта не должен
    съедать его целиком — под ним ещё текст, ради которого её и открыли. */
+/* панель живёт только на телефоне: выше 760 разделы стоят в шапке */
+@media (min-width: 761px) {
+  .menu[open] { display: none; }
+}
+
 @media (max-height: 560px) and (max-width: 860px) {
   .sheet__img { max-height: 42vh; }
   .sheet__b { padding-block: 20px; }

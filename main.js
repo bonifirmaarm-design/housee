@@ -108,7 +108,76 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(settle);
   }
 
-  /* ---------- 3. Окно проекта ---------- */
+  /* ---------- 3. Меню на телефоне ---------- */
+  var burger = document.querySelector('.bar .burger');
+  var menu   = document.getElementById('menu');
+  var narrow = window.matchMedia('(max-width: 760px)');
+
+  if (burger && menu && typeof menu.showModal === 'function') {
+    var lock  = document.documentElement;
+    var shut  = null;   // отложенное закрытие, пока штора уезжает вверх
+
+    // снимаем незавершённое закрытие: без этого повторное нажатие во время
+    // ухода панели открыло бы её и тут же захлопнуло по старому transitionend
+    function unarm() {
+      if (!shut) return;
+      menu.removeEventListener('transitionend', shut.fn);
+      window.clearTimeout(shut.t);
+      shut = null;
+    }
+
+    function mark(on) {
+      burger.setAttribute('aria-expanded', on ? 'true' : 'false');
+      lock.style.overflow = on ? 'hidden' : '';
+    }
+
+    function raise() {
+      unarm();
+      mark(true);
+      if (!menu.open) menu.showModal();
+      // класс ставим следующим кадром, иначе переход стартует из конечной точки
+      requestAnimationFrame(function () { menu.classList.add('is-open'); });
+    }
+
+    // панель уходит вверх той же шторой, и только потом закрывается диалог:
+    // close() сразу убрал бы её мгновенно, и движения не было бы видно
+    function drop() {
+      if (!menu.open) return;
+      unarm();
+      menu.classList.remove('is-open');
+      mark(false);
+      if (still.matches) { menu.close(); return; }
+      var fn = function (e) { if (e.target !== menu) return; unarm(); menu.close(); };
+      var t  = window.setTimeout(function () { unarm(); if (menu.open) menu.close(); }, 700);
+      shut = { fn: fn, t: t };
+      menu.addEventListener('transitionend', fn);
+    }
+
+    // по ссылке закрываем сразу: обратная связь — это сам переход к разделу,
+    // а не уезжающая поверх него штора
+    function cut() {
+      if (!menu.open) return;
+      unarm();
+      menu.classList.remove('is-open');
+      mark(false);
+      menu.close();
+    }
+
+    burger.addEventListener('click', raise);
+    menu.querySelector('[data-close]').addEventListener('click', drop);
+    menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', cut); });
+    menu.addEventListener('cancel', function (e) { e.preventDefault(); drop(); });
+    menu.addEventListener('close', function () {
+      unarm();
+      menu.classList.remove('is-open');
+      mark(false);
+      burger.focus();
+    });
+    // экран стал широким — разделы снова стоят в шапке, панель здесь лишняя
+    narrow.addEventListener('change', function (e) { if (!e.matches) cut(); });
+  }
+
+  /* ---------- 4. Окно проекта ---------- */
   var sheet = document.getElementById('sheet');
 
   if (sheet && typeof sheet.showModal === 'function') {
@@ -143,7 +212,7 @@
     sheet.addEventListener('close', function () { if (opener) opener.focus(); });
   }
 
-  /* ---------- 4. Форма ---------- */
+  /* ---------- 5. Форма ---------- */
   var form = document.getElementById('lead');
 
   if (form) {

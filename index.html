@@ -48,6 +48,10 @@
       <a href="#talk">Контакты</a>
     </nav>
     <a class="bar__tel" href="tel:+78000000000">7 800 000 15 15</a>
+    <button class="burger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="menu">
+      <span class="burger__i" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="vh">Меню</span>
+    </button>
   </header>
 
   <div class="lead__body" id="top">
@@ -409,6 +413,33 @@
     <span>Портфолио-проект. Компания вымышленная.</span>
   </div>
 </footer>
+
+<!-- ========== МЕНЮ НА ТЕЛЕФОНЕ ========== -->
+<dialog class="menu" id="menu" aria-label="Разделы сайта">
+  <div class="menu__bar">
+    <span class="bar__brand" aria-hidden="true">
+      <svg aria-hidden="true"><use href="#mark"/></svg>
+      <span>ГРАНЬ</span>
+    </span>
+    <button class="burger burger--x" type="button" data-close>
+      <span class="burger__i" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="vh">Закрыть меню</span>
+    </button>
+  </div>
+
+  <nav class="menu__nav">
+    <a href="#work"><span class="menu__t">Проекты</span><span class="menu__k">47 построено</span></a>
+    <a href="#inside"><span class="menu__t">Интерьер</span><span class="menu__k">4 комнаты</span></a>
+    <a href="#studio"><span class="menu__t">Студия</span><span class="menu__k">9 человек</span></a>
+    <a href="#how"><span class="menu__t">Как строим</span><span class="menu__k">7 месяцев</span></a>
+    <a href="#talk"><span class="menu__t">Контакты</span><span class="menu__k">Санкт-Петербург</span></a>
+  </nav>
+
+  <div class="menu__foot">
+    <a class="menu__tel" href="tel:+78000000000">7 800 000 15 15</a>
+    <a class="menu__mail" href="mailto:dom@gran.studio">dom@gran.studio</a>
+  </div>
+</dialog>
 
 <dialog class="sheet" id="sheet" aria-labelledby="sheet-name">
   <button class="sheet__x" type="button" aria-label="Закрыть"><svg aria-hidden="true"><use href="#cross"/></svg></button>
