@@ -112,6 +112,8 @@
         s.classList.toggle('is-on', s.dataset.room === room);
       });
 
+      document.querySelectorAll('.pin__pill[aria-expanded="true"]')
+        .forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
       showPins(room);
       seat(tab, glide);
       live = tab;
@@ -129,6 +131,17 @@
         var next = tabs[(i + step + tabs.length) % tabs.length];
         next.focus();
         pick(next, true);
+      });
+    });
+
+
+    // выноска раскрывает подробность; открыта всегда одна
+    var pills = Array.prototype.slice.call(document.querySelectorAll('.pin__pill'));
+    pills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var open = pill.getAttribute('aria-expanded') === 'true';
+        pills.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
+        pill.setAttribute('aria-expanded', open ? 'false' : 'true');
       });
     });
 
