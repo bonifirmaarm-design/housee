@@ -28,7 +28,10 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+/* Без scroll-behavior: smooth. Страница высотой в десять тысяч пикселей,
+   и переход из меню в «Контакты» уезжал плавным ходом через всю её высоту —
+   на телефоне это читается не как спокойствие, а как тормоза. */
+html { -webkit-text-size-adjust: 100%; }
 
 body {
   margin: 0;
@@ -37,7 +40,6 @@ body {
   font-family: var(--ui);
   font-size: 16px; line-height: 1.65; font-weight: 400;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 img { max-width: 100%; height: auto; display: block; }
@@ -102,10 +104,13 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   overflow: hidden; background: var(--void); color: #fff;
   display: grid; grid-template-rows: auto 1fr auto;
 }
+/* Затемнение ушло со снимка в вуаль. Чёрный с прозрачностью .26 поверх
+   даёт ровно то же, что brightness(.74), но это обычная заливка, а не
+   фильтр: снимок при этом ещё и едет 2,4 с, и фильтр заставлял браузер
+   перерисовывать полноэкранный слой каждый кадр вместо простого сдвига. */
 .lead__ph {
   position: absolute; inset: 0; z-index: -2;
   width: 100%; height: 100%; object-fit: cover;
-  filter: brightness(.74) contrast(1.04);
   transition: transform 2400ms cubic-bezier(.16,.84,.28,1);
 }
 /* приближение — исходная точка тихого выхода, и заводит его скрипт.
@@ -115,7 +120,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .lead__veil {
   position: absolute; inset: 0; z-index: -1;
   background: linear-gradient(180deg, rgba(10,10,10,.68) 0%, rgba(10,10,10,.08) 34%,
-                                       rgba(10,10,10,.30) 66%, rgba(10,10,10,.86) 100%);
+                                       rgba(10,10,10,.30) 66%, rgba(10,10,10,.86) 100%),
+              linear-gradient(rgba(10,10,10,.26), rgba(10,10,10,.26));
 }
 
 .bar {
@@ -370,7 +376,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 .rooms { position: relative; display: flex; flex-wrap: wrap; gap: 6px; width: fit-content; }
 .rooms__goo { position: absolute; inset: 0; z-index: 0; filter: url(#gooey); pointer-events: none; }
-.rooms__blob, .rooms__drop { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); border-radius: 999px; will-change: transform, width; }
+.rooms__blob, .rooms__drop { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); border-radius: 999px; }
 .rooms__blob { transition: transform var(--t-mid), width var(--t-mid), height var(--t-mid); }
 .rooms__drop { opacity: 0; transition: transform var(--t-mid), width var(--t-mid), height var(--t-mid), opacity 260ms linear 120ms; }
 .rooms__drop.is-out { opacity: 1; }
@@ -497,9 +503,16 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 /* средняя короче и прижата вправо — сдвиг объёмов, как у самих домов */
 .burger__i span:nth-child(2) { top: 7px; left: auto; right: 0; width: 14px; }
 .burger__i span:nth-child(3) { top: 14px; width: 22px; }
-.burger--x .burger__i span:nth-child(1) { top: 7px; transform: rotate(45deg); }
+/* Крестик должен занимать те же 22 px, что и бургер, и упираться правым
+   краем в то же поле. Повёрнутая на 45° линия короче своей длины в корень
+   из двух, поэтому линии крестика длиннее полос: 22 × √2 = 31.11. */
+.burger--x .burger__i span:nth-child(1),
+.burger--x .burger__i span:nth-child(3) {
+  top: 50%; left: 50%; right: auto; width: 31.11px; translate: -50% -50%;
+}
+.burger--x .burger__i span:nth-child(1) { transform: rotate(45deg); }
 .burger--x .burger__i span:nth-child(2) { opacity: 0; }
-.burger--x .burger__i span:nth-child(3) { top: 7px; transform: rotate(-45deg); }
+.burger--x .burger__i span:nth-child(3) { transform: rotate(-45deg); }
 
 .menu {
   inset: 0; width: auto; height: auto; max-width: none; max-height: none;
@@ -669,19 +682,24 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
   .dark__small { max-width: none; }
 
-  /* выноски на телефоне не висят над кадром: пилюля шириной почти в экран
-     закрыла бы сам предмет. Сначала кадр, под ним — подписи списком. */
-  .stage { aspect-ratio: auto; overflow: visible; padding-bottom: 16px; }
-  .stage__frame { display: none; }
-  .stage__slides { position: relative; aspect-ratio: 4 / 3; }
-  .pin {
-    position: static; width: auto; transform: none;
-    display: none; opacity: 1; visibility: visible;
-    margin: 10px clamp(12px, 3vw, 20px) 0;
-  }
-  .pin.is-on { display: block; }
-  .pin__b { width: 100%; max-width: none; box-shadow: none; translate: none; }
-  .pin__s, .pin__d { display: none; }
+  /* Кадр на телефоне квадратный, а не 16:9. Причина не в красоте: в низком
+     кадре раскрытой выноске просто некуда встать — она вылезала за верхний
+     край. Заодно интерьер занимает экран целиком и читается крупнее. */
+  .stage { aspect-ratio: 1 / 1; }
+
+  /* Выноска остаётся на снимке: подпись должна стоять на самом предмете,
+     а не уезжать под кадр. Чтобы уместиться, свёрнутая выноска показывает
+     только название — «Диван». Подробности приходят по нажатию, тогда же
+     пилюля и вырастает. Так название всегда меньше предмета, который
+     называет, и кадр остаётся видно. */
+  .pin__b { gap: 8px; padding: 5px 13px 5px 5px; max-width: min(230px, 62vw); }
+  .pin__i { width: 25px; height: 25px; }
+  .pin__i svg { width: 11px; height: 11px; }
+  .pin__x { font-size: 11.5px; gap: 1px; }
+  .pin__x b { font-size: 12.5px; }
+  .pin__x > span:not(.pin__m) { display: none; }
+  .pin__b[aria-expanded="true"] .pin__x > span { display: block; }
+  .pin__s { height: 22px; }
 
   .studio__row { grid-template-columns: repeat(2, 1fr); }
   .how__list { grid-template-columns: 1fr; }
@@ -702,6 +720,12 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 /* телефон в альбоме: низкое окно. Кадр в карточке проекта не должен
    съедать его целиком — под ним ещё текст, ради которого её и открыли. */
+/* Ховер-переходы на сенсорном экране не наступят никогда. Снимаем, чтобы
+   браузер не держал снимки готовыми к переходу, которого не будет. */
+@media (hover: none) {
+  .card img, .studio__row img { transition: none; }
+}
+
 /* панель живёт только на телефоне: выше 760 разделы стоят в шапке */
 @media (min-width: 761px) {
   .menu[open] { display: none; }

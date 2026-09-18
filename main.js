@@ -116,6 +116,7 @@
   if (burger && menu && typeof menu.showModal === 'function') {
     var lock  = document.documentElement;
     var shut  = null;   // отложенное закрытие, пока штора уезжает вверх
+    var jump  = false;  // закрылись переходом по ссылке — фокус не возвращаем
 
     // снимаем незавершённое закрытие: без этого повторное нажатие во время
     // ухода панели открыло бы её и тут же захлопнуло по старому transitionend
@@ -133,6 +134,7 @@
 
     function raise() {
       unarm();
+      jump = false;
       mark(true);
       if (!menu.open) menu.showModal();
       // класс ставим следующим кадром, иначе переход стартует из конечной точки
@@ -157,6 +159,7 @@
     // а не уезжающая поверх него штора
     function cut() {
       if (!menu.open) return;
+      jump = true;
       unarm();
       menu.classList.remove('is-open');
       mark(false);
@@ -171,7 +174,9 @@
       unarm();
       menu.classList.remove('is-open');
       mark(false);
-      burger.focus();
+      // фокус возвращаем только если никуда не ушли: focus() прокручивает
+      // к элементу, и после перехода по ссылке он утаскивал страницу назад
+      if (!jump) burger.focus({ preventScroll: true });
     });
     // экран стал широким — разделы снова стоят в шапке, панель здесь лишняя
     narrow.addEventListener('change', function (e) { if (!e.matches) cut(); });
