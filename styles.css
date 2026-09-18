@@ -447,8 +447,11 @@ a.seal:hover { background: var(--ink); transform: scale(1.03); }
 .pin__pill:hover { transform: translateY(-2px); }
 .pin__pill[aria-expanded="true"] { border-radius: 20px; align-items: flex-start; }
 .pin__pill[aria-expanded="true"] .pin__dotmark { margin-top: 1px; }
-.pin__dotmark svg { transition: transform var(--t-mid); }
-.pin__pill[aria-expanded="true"] .pin__dotmark svg { transform: rotate(135deg); }
+.pin__dotmark { position: relative; }
+.pin__dotmark svg { position: absolute; transition: opacity var(--t-fast); }
+.pin__cross { opacity: 0; }
+.pin__pill[aria-expanded="true"] .pin__arrow { opacity: 0; }
+.pin__pill[aria-expanded="true"] .pin__cross { opacity: 1; }
 
 .pin__sub { display: block; }
 .pin__more { display: none; margin-top: 7px; color: var(--ink); }
