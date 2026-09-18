@@ -36,3 +36,8 @@ kb = lambda n: f"{n // 1024} KB"
 print(f"{out}  {kb(out.stat().st_size)}")
 print(f"{len(used)} изображений, {kb(sum((ROOT / u).stat().st_size for u in used))}")
 print("карта файлов для публикации:", out.parent / 'artifact-files.json')
+print()
+print("!!! При публикации ОБЯЗАТЕЛЬНО передать эту карту параметром files.")
+print("    Без неё новые снимки не уедут, и на странице будут битые картинки —")
+print("    переиздание сохраняет только уже опубликованные файлы.")
+print("files =", json.dumps({u: u for u in used}, ensure_ascii=False))

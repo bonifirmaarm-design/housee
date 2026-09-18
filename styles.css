@@ -177,7 +177,9 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .say__c p { font-size: 16px; color: var(--stone); max-width: 52ch; }
 
 .wide { padding: 0 var(--gut) var(--band); }
-.wide img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; }
+/* один грейд на все снимки, кроме первого экрана: без него подборка
+   разъезжается по температуре и перестаёт читаться как одна съёмка */
+.wide img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; filter: saturate(.9) contrast(1.04); }
 .wide figcaption {
   display: flex; justify-content: space-between; gap: 16px;
   padding-top: 12px; font-size: 12.5px; color: var(--stone);
@@ -215,12 +217,22 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .work__list > :nth-child(3) { grid-column: span 2; }
 .work__list > :nth-child(5) { grid-column: span 3; }
 .card button { display: block; width: 100%; padding: 0; text-align: left; }
-.card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform var(--t-slow); }
+.card img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; filter: saturate(.9) contrast(1.04); transition: transform var(--t-slow), filter var(--t-mid); }
 .card--wide img { aspect-ratio: 16 / 10; }
-.card button:hover img { transform: scale(1.02); }
-.card__c { display: flex; justify-content: space-between; gap: 14px; padding-top: 12px; font-size: 13.5px; }
+.card button:hover img { transform: scale(1.02); filter: saturate(1) contrast(1); }
+.card__c {
+  display: flex; justify-content: space-between; gap: 14px;
+  margin-top: 12px; padding-top: 12px;
+  border-top: 1px solid var(--hair);
+  font-size: 13.5px;
+}
 .card__c span:last-child { color: var(--stone); }
-.card button:hover .card__c span:first-child { text-decoration: underline; text-underline-offset: 3px; }
+.card__c span:first-child {
+  background-image: linear-gradient(var(--ink), var(--ink));
+  background-size: 0% 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size var(--t-mid);
+}
+.card button:hover .card__c span:first-child { background-size: 100% 1px; }
 
 /* ============================================================
    5. МАТЕРИАЛЫ — тёмная полоса
@@ -231,7 +243,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   gap: clamp(18px, 3vw, 48px); align-items: center;
   padding: var(--band) var(--gut);
 }
-.dark img { width: 100%; object-fit: cover; }
+.dark img { width: 100%; object-fit: cover; filter: saturate(.85) contrast(1.05); }
 .dark__a img { aspect-ratio: 3 / 4; }
 .dark__b img { aspect-ratio: 1 / 1; }
 .dark__t { display: grid; gap: 20px; }
@@ -252,7 +264,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .stage__slides, .slide { position: absolute; inset: 0; }
 .slide { opacity: 0; transition: opacity var(--t-mid); }
 .slide.is-on { opacity: 1; }
-.slide img { width: 100%; height: 100%; object-fit: cover; }
+.slide img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.92) contrast(1.03); }
 .stage__frame {
   position: absolute; z-index: 3; inset: clamp(14px, 2.4vw, 32px);
   border: 1.5px solid rgba(255,255,255,.9);
@@ -293,7 +305,25 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .pin__s { width: 1px; height: 46px; background: rgba(255,255,255,.8); }
 .pin__d { width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(0,0,0,.18); }
 
-.rooms { position: relative; display: flex; flex-wrap: wrap; gap: 6px; margin-top: clamp(14px, 2vw, 22px); width: fit-content; }
+/* ряд вкладок берёт всю ширину и завершает секцию: справа — что входит в дом.
+   Раньше вкладки висели одни на огромном пустом поле. */
+.roomsrow {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+  gap: 16px clamp(20px, 4vw, 60px);
+  margin-top: clamp(14px, 2vw, 22px);
+  padding-top: clamp(14px, 2vw, 22px);
+  border-top: 1px solid var(--hair);
+}
+.roomsrow__n { font-size: 13.5px; color: var(--stone); max-width: 42ch; text-align: right; }
+.roomsrow__n a {
+  color: var(--ink);
+  background-image: linear-gradient(var(--ink), var(--ink));
+  background-size: 100% 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size var(--t-fast);
+}
+.roomsrow__n a:hover { background-size: 0% 1px; }
+
+.rooms { position: relative; display: flex; flex-wrap: wrap; gap: 6px; width: fit-content; }
 .rooms__goo { position: absolute; inset: 0; z-index: 0; filter: url(#gooey); pointer-events: none; }
 .rooms__blob, .rooms__drop { position: absolute; top: 0; left: 0; height: 100%; background: var(--ink); border-radius: 999px; will-change: transform, width; }
 .rooms__blob { transition: transform var(--t-mid), width var(--t-mid); }
@@ -339,7 +369,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .how__n { font-size: 12.5px; color: var(--stone); font-variant-numeric: tabular-nums; }
 .how__list h3 { font-size: 17px; font-weight: 500; letter-spacing: -.015em; }
 .how__list p { font-size: 14px; color: var(--stone); }
-.how__list img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-top: 8px; }
+.how__list img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; margin-top: 8px; filter: saturate(.9) contrast(1.04); }
 
 /* ============================================================
    9. КОНТАКТ
@@ -461,6 +491,8 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
   .card img, .card--wide img { aspect-ratio: 4 / 3; }
   .dark { grid-template-columns: 1fr; }
   .stage { aspect-ratio: 4 / 3; }
+  .roomsrow { justify-content: flex-start; }
+  .roomsrow__n { text-align: left; max-width: none; }
   .studio__row { grid-template-columns: repeat(2, 1fr); }
   .how__list { grid-template-columns: 1fr; }
   .how__list li + li { border-left: 0; padding-left: 0; border-top: 1px solid var(--hair); padding-top: 26px; }
