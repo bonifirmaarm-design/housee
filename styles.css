@@ -51,6 +51,12 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; }
 
 ::selection { background: var(--ink); color: var(--paper); }
 :focus-visible { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 2px; }
+/* Сами окна фокус не обводим. showModal() ставит фокус на первую кнопку
+   внутри, и на телефоне вокруг крестика проступала квадратная рамка —
+   кольцо фокуса, хотя пальцем никто по клавиатуре не ходил. Фокус уводим
+   на само окно (tabindex="-1" в разметке), а у контейнера обводки нет:
+   кольцо остаётся там, где оно нужно, — на кнопках при обходе клавишей. */
+.menu:focus, .menu:focus-visible, .sheet:focus, .sheet:focus-visible { outline: none; }
 html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 ::-webkit-scrollbar { width: 11px; height: 11px; }
 ::-webkit-scrollbar-track { background: var(--paper); }

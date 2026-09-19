@@ -208,7 +208,7 @@
       seatBar();
       burger.setAttribute('aria-expanded', 'true');
       lock.classList.add('is-menu');
-      if (!menu.open) menu.showModal();
+      if (!menu.open) { menu.showModal(); menu.focus({ preventScroll: true }); }
     }
     function drop() { if (menu.open) menu.close(); }
     // по ссылке закрываем так же, но фокус потом не возвращаем: focus()
@@ -252,6 +252,7 @@
         sText.textContent = btn.dataset.text;
         sheet.scrollTop = 0;
         sheet.showModal();
+        sheet.focus({ preventScroll: true });   // не на крестик: иначе он обводится рамкой
       });
     });
 
