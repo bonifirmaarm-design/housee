@@ -491,7 +491,13 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
    Собственная верхняя строка панели повторяет знак и кнопку ровно на
    местах шапки, поэтому шапка выглядит несдвинутой.
    ============================================================ */
-.burger { display: none; }
+.burger { display: none; position: relative; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+/* область нажатия шире рисунка: до края экрана справа и по 8 px сверху и
+   снизу. Иконка при этом остаётся ровно на поле, а палец промахнуться
+   уже не может. */
+.burger::after { content: ''; position: absolute; inset: -8px -8px -8px 0; }
+.burger:active .burger__i { opacity: .55; }
+.burger__i { transition: opacity var(--t-fast); }
 .burger__i {
   position: relative; display: block; width: 22px; height: 15px;
 }
@@ -514,23 +520,46 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 .burger--x .burger__i span:nth-child(2) { opacity: 0; }
 .burger--x .burger__i span:nth-child(3) { transform: rotate(-45deg); }
 
+/* Уход панели анимирует сам браузер: display и overlay перечислены в
+   transition с allow-discrete, поэтому close() можно звать сразу, а не
+   ждать окончания перехода. Раньше закрытие держалось на transitionend,
+   и любой несработавший переход оставлял панель открытой навсегда —
+   вместе с заблокированной прокруткой всей страницы.
+   Где allow-discrete не поддержан, панель просто исчезает без хода:
+   некрасиво, но никогда не залипает.
+
+   Едет она на десять пикселей, а не через весь экран. Полная штора
+   на 460 мс держала крестик выше видимой области: нетерпеливый повторный
+   тап по тому же месту попадал в пустоту, и это читалось как «не
+   закрывается». Теперь крестик нажимается с первого кадра. */
 .menu {
   inset: 0; width: auto; height: auto; max-width: none; max-height: none;
   margin: 0; padding: 0; border: 0;
   background: var(--paper); color: var(--ink);
   overflow: auto; overscroll-behavior: contain;
-  transform: translateY(-100%); transition: transform var(--t-mid);
+  opacity: 0; transform: translateY(-10px);
+  transition: opacity 240ms cubic-bezier(.2,.7,.3,1),
+              transform var(--t-mid),
+              overlay var(--t-mid) allow-discrete,
+              display var(--t-mid) allow-discrete;
 }
-.menu.is-open { transform: none; }
 /* список стоит сразу под шапкой, а весь запас высоты собирается над
    телефоном. Отцентрованный список давал два одинаковых провала и
    разваливал панель на три несвязанные зоны. */
-.menu[open] { display: grid; grid-template-rows: auto auto 1fr; }
+.menu[open] { display: grid; grid-template-rows: auto auto 1fr; opacity: 1; transform: none; }
+@starting-style { .menu[open] { opacity: 0; transform: translateY(-10px); } }
 .menu::backdrop { background: transparent; }
+.is-menu, .is-menu body { overflow: hidden; }
 
+/* Шапка панели обязана встать ровно на шапку страницы. Модальный диалог
+   лежит в верхнем слое и считается от самого экрана, а страница — от :root,
+   которому обёртка артефакта добавляет отступ под «чёлку». Без этой
+   поправки крестик уходил на высоту чёлки вверх, под статус-бар, где по
+   нему уже не попасть. Отступ не угадываем через env(), а измеряем со
+   страницы перед открытием: обёртка может задать его как угодно. */
 .menu__bar {
   display: flex; justify-content: space-between; align-items: center; gap: 20px;
-  padding: clamp(20px, 3vh, 30px) var(--gut);
+  padding: calc(clamp(20px, 3vh, 30px) + var(--safe-top, env(safe-area-inset-top, 0px))) var(--gut) clamp(20px, 3vh, 30px);
 }
 
 .menu__nav { display: grid; padding: clamp(16px, 4.5vh, 48px) var(--gut) 0; }
@@ -554,7 +583,7 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
 .menu__foot {
   display: grid; align-content: end; justify-items: start; gap: 6px;
-  padding: 0 var(--gut) clamp(26px, 6vh, 54px);
+  padding: 0 var(--gut) calc(clamp(26px, 6vh, 54px) + var(--safe-bottom, env(safe-area-inset-bottom, 0px)));
 }
 .menu__tel { font-weight: 400; font-variant-numeric: tabular-nums; }
 .menu__mail { font-size: 13.5px; color: var(--stone); }
@@ -655,12 +684,12 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
 
   /* шапка сжимается до знака и бургера: пять разделов второй строкой
      отъедали у снимка треть экрана. Телефон уходит в панель, где он
-     набран крупно — на телефоне это главное действие. Прячем только
-     при живом скрипте: без него бургер бесполезен, и пусть остаётся
-     обычный ряд ссылок. */
-  .js .bar { grid-template-columns: auto auto; grid-template-areas: "brand burger"; row-gap: 0; }
-  .js .bar__nav, .js .bar__tel { display: none; }
-  .js .burger { display: block; grid-area: burger; justify-self: end; padding: 11px 0 11px 20px; }
+     набран крупно — на телефоне это главное действие. Перестраиваем только
+     если <dialog> реально работает: иначе бургер был бы мёртвой кнопкой,
+     и пусть лучше остаётся обычный ряд ссылок. */
+  .dlg .bar { grid-template-columns: auto auto; grid-template-areas: "brand burger"; row-gap: 0; }
+  .dlg .bar__nav, .dlg .bar__tel { display: none; }
+  .dlg .burger { display: block; grid-area: burger; justify-self: end; padding: 15px 0 15px 24px; }
 
   /* заголовок первого экрана берёт больше кегля: снимок ведёт, и текст
      поверх него должен звучать так же уверенно, как на большом экране */
@@ -724,6 +753,18 @@ html { scrollbar-color: var(--stone) var(--paper); scrollbar-width: thin; }
    браузер не держал снимки готовыми к переходу, которого не будет. */
 @media (hover: none) {
   .card img, .studio__row img { transition: none; }
+}
+
+/* Низкое окно: панель сжимается, чтобы телефон внизу оставался виден.
+   Прокручиваемое меню из пяти пунктов — признак того, что кегль не
+   подогнали под экран, а не того, что пунктов много. */
+@media (max-width: 760px) and (max-height: 620px) {
+  /* шапку панели не трогаем: она обязана совпадать с шапкой страницы,
+     а та на низком экране не сжимается. Место берём со строк и кегля. */
+  .menu__nav { padding-top: 6px; }
+  .menu__nav a { padding: 8px 0; }
+  .menu__t, .menu__tel { font-size: clamp(1.1rem, 5.2vw, 1.4rem); }
+  .menu__foot { padding-bottom: calc(14px + var(--safe-bottom, 0px)); }
 }
 
 /* панель живёт только на телефоне: выше 760 разделы стоят в шапке */

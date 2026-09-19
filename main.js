@@ -6,6 +6,10 @@
   var root  = document.documentElement;
   var still = window.matchMedia('(prefers-reduced-motion: reduce)');
   root.classList.add('js');
+  // бургер имеет право появиться только там, где панель действительно
+  // откроется: иначе на старом телефоне он был бы мёртвой кнопкой,
+  // а разделов в шапке уже не было бы
+  if (window.HTMLDialogElement && HTMLDialogElement.prototype.showModal) root.classList.add('dlg');
 
   /* ---------- 1. Выход первого экрана ---------- */
   function open() {
@@ -114,72 +118,51 @@
   var narrow = window.matchMedia('(max-width: 760px)');
 
   if (burger && menu && typeof menu.showModal === 'function') {
-    var lock  = document.documentElement;
-    var shut  = null;   // отложенное закрытие, пока штора уезжает вверх
-    var jump  = false;  // закрылись переходом по ссылке — фокус не возвращаем
+    var lock = document.documentElement;
+    var jump = false;   // закрылись переходом по ссылке — фокус не возвращаем
 
-    // снимаем незавершённое закрытие: без этого повторное нажатие во время
-    // ухода панели открыло бы её и тут же захлопнуло по старому transitionend
-    function unarm() {
-      if (!shut) return;
-      menu.removeEventListener('transitionend', shut.fn);
-      window.clearTimeout(shut.t);
-      shut = null;
-    }
-
-    function mark(on) {
-      burger.setAttribute('aria-expanded', on ? 'true' : 'false');
-      lock.style.overflow = on ? 'hidden' : '';
+    // Ход панели целиком на CSS (см. allow-discrete в styles.css), поэтому
+    // здесь нет ни таймеров, ни ожидания transitionend: close() исполняется
+    // сразу и не может не исполниться.
+    // шапка панели должна встать ровно на шапку страницы. Диалог в верхнем
+    // слое считается от экрана, а страница — от отступа, который обёртка
+    // (в артефакте — под «чёлку») кладёт на :root. Измеряем его каждый раз:
+    // при повороте телефона он меняется.
+    function seatBar() {
+      var r = getComputedStyle(lock), bd = getComputedStyle(document.body);
+      var top = (parseFloat(r.paddingTop) || 0) + (parseFloat(bd.paddingTop) || 0);
+      var bot = (parseFloat(r.paddingBottom) || 0) + (parseFloat(bd.paddingBottom) || 0);
+      menu.style.setProperty('--safe-top', top + 'px');
+      menu.style.setProperty('--safe-bottom', bot + 'px');
     }
 
     function raise() {
-      unarm();
       jump = false;
-      mark(true);
+      seatBar();
+      burger.setAttribute('aria-expanded', 'true');
+      lock.classList.add('is-menu');
       if (!menu.open) menu.showModal();
-      // класс ставим следующим кадром, иначе переход стартует из конечной точки
-      requestAnimationFrame(function () { menu.classList.add('is-open'); });
     }
-
-    // панель уходит вверх той же шторой, и только потом закрывается диалог:
-    // close() сразу убрал бы её мгновенно, и движения не было бы видно
-    function drop() {
-      if (!menu.open) return;
-      unarm();
-      menu.classList.remove('is-open');
-      mark(false);
-      if (still.matches) { menu.close(); return; }
-      var fn = function (e) { if (e.target !== menu) return; unarm(); menu.close(); };
-      var t  = window.setTimeout(function () { unarm(); if (menu.open) menu.close(); }, 700);
-      shut = { fn: fn, t: t };
-      menu.addEventListener('transitionend', fn);
-    }
-
-    // по ссылке закрываем сразу: обратная связь — это сам переход к разделу,
-    // а не уезжающая поверх него штора
-    function cut() {
-      if (!menu.open) return;
-      jump = true;
-      unarm();
-      menu.classList.remove('is-open');
-      mark(false);
-      menu.close();
-    }
+    function drop() { if (menu.open) menu.close(); }
+    // по ссылке закрываем так же, но фокус потом не возвращаем: focus()
+    // прокручивает к элементу и утащил бы страницу обратно наверх
+    function cut()  { jump = true; if (menu.open) menu.close(); }
 
     burger.addEventListener('click', raise);
     menu.querySelector('[data-close]').addEventListener('click', drop);
     menu.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', cut); });
-    menu.addEventListener('cancel', function (e) { e.preventDefault(); drop(); });
     menu.addEventListener('close', function () {
-      unarm();
-      menu.classList.remove('is-open');
-      mark(false);
-      // фокус возвращаем только если никуда не ушли: focus() прокручивает
-      // к элементу, и после перехода по ссылке он утаскивал страницу назад
+      burger.setAttribute('aria-expanded', 'false');
+      lock.classList.remove('is-menu');
       if (!jump) burger.focus({ preventScroll: true });
     });
     // экран стал широким — разделы снова стоят в шапке, панель здесь лишняя
     narrow.addEventListener('change', function (e) { if (!e.matches) cut(); });
+    // страховка: если панель почему-то не открыта, прокрутка обязана быть
+    // свободной. Иначе застрявший замок выглядит как намертво повисший сайт.
+    window.addEventListener('pageshow', function () {
+      if (!menu.open) lock.classList.remove('is-menu');
+    });
   }
 
   /* ---------- 4. Окно проекта ---------- */
