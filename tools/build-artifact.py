@@ -14,10 +14,12 @@ out = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / 'build' / 'arti
 
 src = (ROOT / 'index.html').read_text(encoding='utf-8')
 body = src[src.index('<body>') + len('<body>'):src.index('</body>')].strip()
-body = body.replace('<script src="main.js"></script>', '').strip()
+body = re.sub(r'<script src="main\.js[^"]*"></script>', '', body).strip()
 
 # список стилей берём из самой страницы, иначе он разъезжается при смене шрифтов
-sheets = re.findall(r'<link rel="stylesheet" href="([^"]+)"', src)
+# ?v=… в адресах стилей и скрипта — метка версии против кэша GitHub Pages;
+# для сборки её надо отбросить, иначе файл не найдётся
+sheets = [h.split('?')[0] for h in re.findall(r'<link rel="stylesheet" href="([^"]+)"', src)]
 missing = [s for s in sheets if not (ROOT / s).exists()]
 if missing:
     raise SystemExit('нет файлов стилей: ' + ', '.join(missing))
