@@ -24,7 +24,50 @@
     document.fonts.ready.then(function () { clearTimeout(late); open(); });
   } else { open(); }
 
-  /* ---------- 2. Комнаты: вкладки, «капля», выноски ---------- */
+  /* ---------- 2. Плавный переход по якорям ---------- */
+  /* Родной scroll-behavior: smooth растягивает ход на всю дистанцию, и на
+     странице в десять тысяч пикселей переход из меню в «Контакты» полз
+     через всю её высоту. Здесь длительность постоянная: и короткий, и
+     длинный прыжок занимают одно и то же время, поэтому ход остаётся
+     плавным, но никогда не превращается в ползание. */
+  var GLIDE = 620;
+  var gliding = 0;
+
+  function stopGlide() { if (gliding) { cancelAnimationFrame(gliding); gliding = 0; } }
+  ['wheel', 'touchstart', 'keydown'].forEach(function (ev) {
+    window.addEventListener(ev, stopGlide, { passive: true });
+  });
+
+  function glideTo(target, id) {
+    var from = window.scrollY;
+    var max  = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+    var to   = Math.min(max, Math.max(0, Math.round(target.getBoundingClientRect().top + from)));
+    function land() { if (id) history.replaceState(null, '', '#' + id); }
+
+    stopGlide();
+    if (still.matches || Math.abs(to - from) < 2) { window.scrollTo(0, to); land(); return; }
+
+    var t0 = 0;
+    gliding = requestAnimationFrame(function step(now) {
+      if (!t0) t0 = now;
+      var k = Math.min(1, (now - t0) / GLIDE);
+      window.scrollTo(0, from + (to - from) * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) { gliding = requestAnimationFrame(step); } else { gliding = 0; land(); }
+    });
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button) return;
+    var id = a.getAttribute('href').slice(1);
+    if (!id) return;
+    var target = document.getElementById(id);
+    if (!target) return;
+    e.preventDefault();
+    glideTo(target, id);
+  });
+
+  /* ---------- 3. Комнаты: вкладки, «капля», выноски ---------- */
   var rooms = document.querySelector('.rooms');
 
   if (rooms) {
@@ -78,6 +121,7 @@
       });
       slides.forEach(function (s) { s.classList.toggle('is-on', s.dataset.room === room); });
       pills.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
+      layer();
       showPins(room);
       seat(tab, glide);
       live = tab;
@@ -95,12 +139,35 @@
       });
     });
 
+    // раскрытую выноску поднимаем над соседней, а соседнюю уводим во второй
+    // слой: иначе свёрнутая пилюля накрывает раскрытую и съедает её текст
+    var stage = document.querySelector('.stage');
+    function layer() {
+      var any = false;
+      pins.forEach(function (pn) {
+        var on = pn.querySelector('.pin__b').getAttribute('aria-expanded') === 'true';
+        pn.classList.toggle('is-open', on);
+        if (on) any = true;
+      });
+      if (stage) stage.classList.toggle('is-telling', any);
+    }
+
+    // тап по самому кадру сворачивает раскрытую выноску. Без этого выхода
+    // из раскрытой в соседнюю не перейти: раскрытая пилюля перекрывает
+    // соседнюю почти целиком, и нажать по ней просто некуда.
+    if (stage) stage.addEventListener('click', function (e) {
+      if (e.target.closest('.pin')) return;
+      pills.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
+      layer();
+    });
+
     // выноска раскрывает подробность; открыта всегда одна
     pills.forEach(function (pill) {
       pill.addEventListener('click', function () {
         var open = pill.getAttribute('aria-expanded') === 'true';
         pills.forEach(function (o) { o.setAttribute('aria-expanded', 'false'); });
         pill.setAttribute('aria-expanded', open ? 'false' : 'true');
+        layer();
       });
     });
 
@@ -112,7 +179,7 @@
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(settle);
   }
 
-  /* ---------- 3. Меню на телефоне ---------- */
+  /* ---------- 4. Меню на телефоне ---------- */
   var burger = document.querySelector('.bar .burger');
   var menu   = document.getElementById('menu');
   var narrow = window.matchMedia('(max-width: 760px)');
@@ -165,7 +232,7 @@
     });
   }
 
-  /* ---------- 4. Окно проекта ---------- */
+  /* ---------- 5. Окно проекта ---------- */
   var sheet = document.getElementById('sheet');
 
   if (sheet && typeof sheet.showModal === 'function') {
@@ -188,8 +255,14 @@
       });
     });
 
+    var away = false;   // ушли по кнопке к форме — фокус на карточку не возвращаем
+
     sheet.querySelector('.sheet__x').addEventListener('click', function () { sheet.close(); });
-    sheet.querySelector('.btn').addEventListener('click', function () { sheet.close(); });
+    // «Хочу такой же» закрывает окно и уводит к форме. Возврат фокуса на
+    // карточку прокручивал страницу обратно к ней, и переход не срабатывал
+    sheet.querySelector('.btn').addEventListener('click', function () { away = true; sheet.close(); });
+    // диалог закрывается синхронно, но ход к форме считает позиции уже после:
+    // пока окно открыто, прокрутка страницы заблокирована самим диалогом
 
     // клик мимо карточки закрывает окно
     sheet.addEventListener('click', function (e) {
@@ -197,10 +270,13 @@
       var b = sheet.getBoundingClientRect();
       if (e.clientY < b.top || e.clientY > b.bottom || e.clientX < b.left || e.clientX > b.right) sheet.close();
     });
-    sheet.addEventListener('close', function () { if (opener) opener.focus(); });
+    sheet.addEventListener('close', function () {
+      if (opener && !away) opener.focus({ preventScroll: true });
+      away = false;
+    });
   }
 
-  /* ---------- 5. Форма ---------- */
+  /* ---------- 6. Форма ---------- */
   var form = document.getElementById('lead');
 
   if (form) {
